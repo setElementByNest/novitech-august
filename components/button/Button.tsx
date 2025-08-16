@@ -1,0 +1,74 @@
+import { Text, TouchableOpacity, StyleSheet, View, Pressable } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react'
+
+type themeProps = 'green' | 'gray' | 'graydark' | 'white' | 'lock';
+
+const themeSet: Record<string, { background: string; color: string }> = {
+    'green': { background: '#2e6b50', color: '#fff' },
+    'gray': { background: '#eaeaea', color: '#888' },
+    'graydark': { background: '#eaeaea', color: '#444' },
+    'white': { background: '#ffffff', color: '#222' },
+    'lock': { background: '#fc0', color: '#fff' },
+};
+
+type Props1 = {
+    text: string;
+    theme: themeProps;
+    fn: () => void;
+}
+type Props2 = {
+    text: string;
+    theme: themeProps;
+    fn: () => void;
+}
+
+const Button = ({ text, theme, fn }: Props1) => {
+    return (
+        <TouchableOpacity style={[styles.button, { backgroundColor: themeSet[theme].background }]} onPress={fn}>
+            <View style={{ display: theme === 'lock' ? 'flex' : 'none' }}>
+                <MaterialCommunityIcons
+                    name={'lock'}
+                    size={28}
+                    color={'white'}
+                    style={{ margin: 0, padding: 0, marginRight: 4 }}
+                />
+            </View>
+            <Text style={[styles.button_text, { color: themeSet[theme].color }]}>
+                {text}
+            </Text>
+        </TouchableOpacity>
+    )
+}
+
+export const ButtonBack = ({ text, fn }: Props2) => {
+    return (
+        <View>
+            <Pressable onPress={fn} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+                <MaterialCommunityIcons name="arrow-left" size={16} color={'gray'} />
+                <Text style={[styles.button_text, { color: 'gray' }]}>{text}</Text>
+            </Pressable>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    button: {
+        paddingVertical: 14,
+        borderRadius: 4,
+        alignItems: 'center',
+        marginBottom: 6,
+        borderColor: '#ddd',
+        borderWidth: 1,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
+    button_text: {
+        fontSize: 16,
+        fontFamily: 'Kanit_400Regular',
+    },
+})
+
+export default Button
