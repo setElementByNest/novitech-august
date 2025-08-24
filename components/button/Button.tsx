@@ -1,11 +1,12 @@
-import { Text, TouchableOpacity, StyleSheet, View, Pressable } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React from 'react'
+import React from 'react';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Colors } from '../../constants/Colors';
 
 type themeProps = 'green' | 'gray' | 'graydark' | 'white' | 'lock';
 
 const themeSet: Record<string, { background: string; color: string }> = {
-    'green': { background: '#2e6b50', color: '#fff' },
+    'green': { background: Colors.light.main, color: '#fff' },
     'gray': { background: '#eaeaea', color: '#888' },
     'graydark': { background: '#eaeaea', color: '#444' },
     'white': { background: '#ffffff', color: '#222' },
@@ -54,8 +55,8 @@ export const ButtonBack = ({ text, fn }: Props2) => {
 
 const styles = StyleSheet.create({
     button: {
-        paddingVertical: 14,
-        borderRadius: 4,
+        paddingVertical: 8,
+        borderRadius: 50,
         alignItems: 'center',
         marginBottom: 6,
         borderColor: '#ddd',
@@ -63,11 +64,12 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
-        alignContent: 'center'
+        alignContent: 'center',
+        width: '100%',
     },
     button_text: {
         fontSize: 16,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
 })
 

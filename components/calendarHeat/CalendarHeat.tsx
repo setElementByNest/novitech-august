@@ -1,5 +1,5 @@
-import { Text, StyleSheet, View } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 type WeekProps = {
     daylist: number[];
@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
     },
     daytexttyle: {
         fontSize: 16,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     proptexttyle: {
         fontSize: 14,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
 })
 

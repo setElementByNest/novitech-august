@@ -1,6 +1,6 @@
-import { Text, StyleSheet, View, Pressable } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React from 'react'
+import React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type Props = {
     text: string;
@@ -21,7 +21,7 @@ const ButtonBack = ({ text, fn }: Props) => {
 const styles = StyleSheet.create({
     button_text: {
         fontSize: 20,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
 })
 

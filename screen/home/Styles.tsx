@@ -1,80 +1,36 @@
 import { StyleSheet } from 'react-native';
-import { Color } from '../../components/Colors';
-
+// import { Color } from '../../components/Colors';
+import { Colors } from '../../constants/Colors';
 const styles = StyleSheet.create({
     container_center: {
         flex: 1,
         padding: 30,
         justifyContent: 'center',
-        backgroundColor: '#f4f4f4',
+        backgroundColor: Colors.light.background,
         width: '100%',
         height: '100%',
         position: 'relative',
     },
     container_top: {
         flex: 1,
-        padding: 30,
+        padding: 16,
         backgroundColor: '#f4f4f4',
         width: '100%',
         height: '100%',
         paddingTop: 220,
-        paddingBottom: 120,
+        paddingBottom: 40,
         justifyContent: 'flex-start',
     },
-    text_head1: {
-        fontSize: 36,
-        color: Color.text2,
-        fontFamily: 'Kanit_600SemiBold',
-    },
-    text_head2: {
-        fontSize: 20,
-        color: Color.text1,
-        fontFamily: 'Kanit_400Regular',
-        padding: 0,
-        margin: 0,
-        textAlign: 'center',
-    },
-    text_head3: {
-        fontSize: 20,
-        color: Color.text3,
-        marginTop: 16,
-        marginBottom: 6,
-        fontFamily: 'Kanit_400Regular',
-    },
-    text_head3_white: {
-        color: '#fff',
-        fontSize: 16,
-        fontFamily: 'Kanit_400Regular',
-    },
-    text_head4: {
-        fontSize: 18,
-        color: Color.text1,
-        marginVertical: 6,
-        fontFamily: 'Kanit_400Regular',
-    },
-    text_head4_gray: {
-        fontSize: 16,
-        marginTop: 8,
-        color: Color.text4,
-        fontFamily: 'Kanit_400Regular',
-    },
-    text_head5_red: {
-        color: '#c44',
-        fontSize: 16,
-        fontFamily: 'Kanit_400Regular',
-    },
     input: {
-        borderWidth: 1,
-        borderColor: '#e6e6e6',
-        borderRadius: 6,
-        padding: 12,
+        padding: 8,
         marginBottom: 12,
         fontSize: 16,
         backgroundColor: '#fff',
-        elevation: 1,
-        fontFamily: 'Kanit_400Regular',
-        borderBottomColor: '#2e6b50',
-        borderBottomWidth: 3,
+        fontFamily: 'Kanit400',
+        width: '100%',
+        borderWidth: 1,
+        borderBottomColor: '#ccc',
+        borderRadius: 6,
     },
     button_green: {
         backgroundColor: '#2e6b50',
@@ -86,7 +42,7 @@ const styles = StyleSheet.create({
     button_green_text: {
         color: '#fff',
         fontSize: 16,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     button_white: {
         backgroundColor: '#fff',
@@ -106,7 +62,7 @@ const styles = StyleSheet.create({
     button_gray_text: {
         color: '#888',
         fontSize: 16,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     nextIcon: {
         position: 'absolute',
@@ -119,20 +75,40 @@ const styles = StyleSheet.create({
     nextIcon_Text: {
         fontSize: 24,
         color: '#000',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
         marginRight: 10,
     },
 })
 
 const home_styles = StyleSheet.create({
-    container: styles.container_top,
+    viewmain: {
+        width: '100%',
+        height: '100%',
+        position: 'relative',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    scrollmain: {
+        width: '100%',
+        height: '100%',
+        position: 'relative',
+    },
+    container: {
+        flex: 1,
+        padding: 16,
+        backgroundColor: Colors.light.background,
+        width: '100%',
+        height: '100%',
+        paddingTop: 220,
+        paddingBottom: 40,
+        justifyContent: 'flex-start',
+    },
     header: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignItems: 'center',
         paddingVertical: 10,
-        // experimental_backgroundImage: 'url(../../assets/headdrop2.png)',
         position: 'absolute',
         top: 0,
         left: 0,
@@ -148,7 +124,6 @@ const home_styles = StyleSheet.create({
         right: 0,
         height: 180,
         width: '100%',
-        backgroundColor: '#fcfffc',
     },
 
     headerText: {
@@ -178,34 +153,27 @@ const home_styles = StyleSheet.create({
         right: 0,
         marginHorizontal: 30,
     },
-    text_head1: styles.text_head1,
-    text_head2: styles.text_head2,
-    text_head3: styles.text_head3,
-    text_head4: styles.text_head4,
-    text_head4_gray: styles.text_head4_gray,
     calendar: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'stretch',
         borderRadius: 10,
-        // shadowColor: '#000',
-        // shadowOffset: { width: 0, height: 2 },
-        // shadowOpacity: 0.2,
-        // shadowRadius: 4,
         paddingHorizontal: 10,
     },
     calendar_head: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
+        marginVertical: 6,
     },
     listItem: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 18,
-        backgroundColor: '#2F8668',
+        backgroundColor: Colors.light.main,
         borderRadius: 50,
         aspectRatio: 1,
     },
@@ -221,7 +189,7 @@ const home_styles = StyleSheet.create({
     listItemText: {
         fontSize: 20,
         color: '#fff',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
         padding: 0,
         margin: 0,
         textAlign: 'center',
@@ -230,7 +198,7 @@ const home_styles = StyleSheet.create({
     listItemText_disabled: {
         fontSize: 20,
         color: '#aaa',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
         padding: 0,
         margin: 0,
         textAlign: 'center',
@@ -248,7 +216,8 @@ const home_styles = StyleSheet.create({
         color: '#999',
         fontSize: 20,
         paddingBottom: 2,
-    }
+    },
+    input: styles.input,
 });
 
 const cardtodo_styles = StyleSheet.create({
@@ -272,14 +241,14 @@ const cardtodo_styles = StyleSheet.create({
     },
     card_header_text: {
         fontSize: 16,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
         color: '#000000ff',
         margin: 0,
         padding: 0,
     },
     card_header_icon: {
         fontSize: 18,
-        fontFamily: 'Kanit_300Light',
+        fontFamily: 'Kanit300',
         color: '#000000ff',
         margin: 0,
         padding: 0,
@@ -309,11 +278,11 @@ const cardtodo_styles = StyleSheet.create({
     },
     taskText: {
         fontSize: 16,
-        fontFamily: 'Kanit_300Light',
+        fontFamily: 'Kanit300',
     },
     taskText_completed: {
         fontSize: 16,
-        fontFamily: 'Kanit_300Light',
+        fontFamily: 'Kanit300',
         color: '#4CB591',
     },
     completed: {
@@ -329,7 +298,7 @@ const cardtodo_styles = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         right: 20,
-        backgroundColor: Color.main,
+        backgroundColor: Colors.light.main,
         padding: 10,
         borderRadius: 50,
     },

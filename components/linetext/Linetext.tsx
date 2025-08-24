@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 const Linetext = ({ text }: { text: string }) => {
     return (
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     separatorText: {
         marginHorizontal: 10,
         color: '#999',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
 })
 

@@ -28,6 +28,15 @@ type Animal = {
 
 type AnimalStatus = 'ปกติ' | 'ติดสัด' | 'ผิดปกติ' | 'ส่งออก' | 'ตาย';
 
+type Crop = {
+    id: string;
+    name: string;
+    status: "normal" | "critical" | "warning";
+    countall: number;
+    countabnormal: number;
+    food: number;
+}
+
 export const demo_task: (TaskProps)[] = [
     { "_id": 1, "name": "ฉีดวัคซีน MorrhaTic Ticaegia", "status": "completed", "timestamp": 1754131200 },
     { "_id": 2, "name": "ตรวจสุขภาพควาย", "status": "pending", "timestamp": 1754217600 },
@@ -90,6 +99,14 @@ export const demo_animal: Animal[] = [
     { id: 'BF003', name: 'Luna', code: 'BF003', gender: 'เมีย', age: 5, weight: 624, status: 'ส่งออก' },
     { id: 'BF006', name: 'Max', code: 'BF006', gender: 'ผู้', age: 4, weight: 598, status: 'ตาย' },
     { id: 'BF009', name: 'Min', code: 'BF009', gender: 'ผู้', age: 4, weight: 534, status: 'ตาย' },
+];
+
+export const demo_crop: Crop[] = [
+    { id: 'crop01', name: 'คอกเด็กเล็ก', status: 'normal', countall: 42, countabnormal: 0, food: 512 },
+    { id: 'crop02', name: 'คอกวัยรุ่นชาย', status: 'normal', countall: 22, countabnormal: 0, food: 412 },
+    { id: 'crop03', name: 'คอกวัยรุ่นสาว', status: 'critical', countall: 32, countabnormal: 2, food: 951 },
+    { id: 'crop04', name: 'คอกให้นม', status: 'normal', countall: 25, countabnormal: 0, food: 732 },
+    { id: 'crop05', name: 'คอกแก่', status: 'normal', countall: 11, countabnormal: 0, food: 241 },
 ];
 
 export interface DemoDetailProps {

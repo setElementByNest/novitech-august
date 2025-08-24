@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type SummaryCardProps = {
     title: string;
@@ -13,6 +13,7 @@ type SummaryCardProps = {
     textUnit: string;
     status: 'normal' | 'warning' | 'critical';
     dot?: boolean;
+    onClick?: () => void;
 };
 
 const statusRecord: Record<string, { color: string; bg: string }> = {
@@ -32,10 +33,11 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
     status,
     dot,
     lock,
+    onClick
 }) => {
     const statusColors = statusRecord[status];
     return (
-        <Pressable style={[styles.card]}>
+        <Pressable style={[styles.card]} onPress={onClick}>
             <View style={styles.card_header}>
                 <Text style={styles.card_header_text}>{title}</Text>
                 <MaterialCommunityIcons style={[styles.card_header_icon, { display: dot ? 'flex' : 'none' }]} name="dots-horizontal" />
@@ -56,6 +58,14 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
         </Pressable>
     );
 };
+
+export const AddCardList = () => {
+    return (
+        <Pressable style={[styles.card, { display: 'flex', flexDirection: 'column', backgroundColor: '#0000001f', alignItems: 'center', justifyContent: 'center' }]} onPress={() => {  }}>
+            <Text>+</Text>
+        </Pressable>
+    );
+}
 
 const styles = StyleSheet.create({
     card: {
@@ -79,14 +89,14 @@ const styles = StyleSheet.create({
     },
     card_header_text: {
         fontSize: 16,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
         color: '#000000ff',
         margin: 0,
         padding: 0,
     },
     card_header_icon: {
         fontSize: 18,
-        fontFamily: 'Kanit_300Light',
+        fontFamily: 'Kanit300',
         color: '#000000ff',
         margin: 0,
         padding: 0,
@@ -104,25 +114,25 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#0f5132',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     subLabel: {
         fontSize: 14,
         color: '#000',
         marginBottom: 4,
-        fontFamily: 'Kanit_300Light',
+        fontFamily: 'Kanit300',
     },
     mainCount: {
         fontSize: 24,
         color: '#000',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
         textAlign: 'center',
         marginVertical: 12,
     },
     unit: {
         fontSize: 24,
         fontWeight: 'normal',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     footerRow: {
         flexDirection: 'row',
@@ -132,7 +142,7 @@ const styles = StyleSheet.create({
     footerText: {
         fontSize: 18,
         color: '#000',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
 });
 

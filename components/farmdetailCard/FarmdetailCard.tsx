@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type FarmdetailCardProps = {
     title: string;
@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
     },
     card_header_text: {
         fontSize: 16,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
         color: '#000000ff',
         margin: 0,
         padding: 0,
     },
     card_header_icon: {
         fontSize: 18,
-        fontFamily: 'Kanit_300Light',
+        fontFamily: 'Kanit300',
         color: '#000000ff',
         margin: 0,
         padding: 0,
@@ -92,33 +92,33 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#0f5132',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     subLabel: {
         fontSize: 14,
         color: '#000',
         marginBottom: 4,
-        fontFamily: 'Kanit_300Light',
+        fontFamily: 'Kanit300',
         width: '16%',
     },
     subLabel2: {
         fontSize: 14,
         color: '#000',
         marginBottom: 4,
-        fontFamily: 'Kanit_300Light',
+        fontFamily: 'Kanit300',
         width: '20%',
     },
     mainCount: {
         fontSize: 24,
         color: '#000',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
         textAlign: 'center',
         marginVertical: 12,
     },
     unit: {
         fontSize: 24,
         fontWeight: 'normal',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     footerRow: {
         flexDirection: 'row',
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     footerText: {
         fontSize: 18,
         color: '#000',
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     valuebar: {
         backgroundColor: '#aaa',

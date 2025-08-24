@@ -9,7 +9,21 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    Kanit100: require('../assets/fonts/Kanit-Thin.ttf'),
+    Kanit100i: require('../assets/fonts/Kanit-ThinItalic.ttf'),
+    Kanit200: require('../assets/fonts/Kanit-ExtraLight.ttf'),
+    Kanit200i: require('../assets/fonts/Kanit-ExtraLightItalic.ttf'),
+    Kanit300: require('../assets/fonts/Kanit-Light.ttf'),
+    Kanit300i: require('../assets/fonts/Kanit-LightItalic.ttf'),
+    Kanit400: require('../assets/fonts/Kanit-Regular.ttf'),
+    Kanit400i: require('../assets/fonts/Kanit-Italic.ttf'),
+    Kanit500: require('../assets/fonts/Kanit-Medium.ttf'),
+    Kanit500i: require('../assets/fonts/Kanit-MediumItalic.ttf'),
+    Kanit600: require('../assets/fonts/Kanit-SemiBold.ttf'),
+    Kanit600i: require('../assets/fonts/Kanit-SemiBoldItalic.ttf'),
+    Kanit700: require('../assets/fonts/Kanit-Bold.ttf'),
+    Kanit700i: require('../assets/fonts/Kanit-BoldItalic.ttf'),
+
   });
 
   if (!loaded) {

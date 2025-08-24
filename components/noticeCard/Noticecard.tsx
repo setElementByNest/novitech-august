@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Color } from '../Colors';
 
 const statusColors: Record<string, { border: string; label: string }> = {
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 22,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     statusBadge: {
         marginTop: 8,
@@ -66,22 +66,22 @@ const styles = StyleSheet.create({
     statusText: {
         color: '#fff',
         fontSize: 16,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     text_head3: {
         fontSize: 18,
         color: Color.text1,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     text_head3_2: {
         fontSize: 16,
         color: Color.text1,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
     text_head4: {
         fontSize: 12,
         color: Color.text4,
-        fontFamily: 'Kanit_400Regular',
+        fontFamily: 'Kanit400',
     },
 });
 
