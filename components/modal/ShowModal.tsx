@@ -2,13 +2,13 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 
-interface HomeFoodModalProps {
+interface ShowModalProps {
     isVisible: boolean;
     onClose: () => void;
     content: React.ReactNode;
 }
 
-const HomeFoodModal: React.FC<HomeFoodModalProps> = ({ isVisible, onClose, content }) => {
+const ShowModal: React.FC<ShowModalProps> = ({ isVisible, onClose, content }) => {
     return (
         <Modal
             isVisible={isVisible}
@@ -19,7 +19,7 @@ const HomeFoodModal: React.FC<HomeFoodModalProps> = ({ isVisible, onClose, conte
             scrollHorizontal={false}
             propagateSwipe={true}
             avoidKeyboard={true}>
-           <View style={[styles.container, { maxHeight: '60%' }]}>
+           <View style={[styles.container, { maxHeight: '80%' }]}>
                 <View style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, padding: 16, backgroundColor: 'white', borderRadius: 8 }}>
                     {content}
                 </View>
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default HomeFoodModal;
+export default ShowModal;

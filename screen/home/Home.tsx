@@ -1,12 +1,18 @@
-import Button from '@/components/button/Button';
-import HomeFoodModal from '@/components/modal/HomeFoodModal';
+import { FoodAdd } from '@/components/modal/modalHome/FoodAdd';
+import { FoodPet } from '@/components/modal/modalHome/FoodPet';
+import { GlowSave } from '@/components/modal/modalHome/GlowSave';
+import { HealthSave } from '@/components/modal/modalHome/HealthSave';
+import { MilkSave } from '@/components/modal/modalHome/MilkSave';
+import { SelectFood } from '@/components/modal/modalHome/SelectFood';
+import { SelectGlow } from '@/components/modal/modalHome/SelectGlow';
+import { SelectHealth } from '@/components/modal/modalHome/SelectHealth';
+import { SelectMilk } from '@/components/modal/modalHome/SelectMilk';
+import ShowModal from '@/components/modal/ShowModal';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { Image, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import FarmdetailCard from '../../components/farmdetailCard/FarmdetailCard';
 import SummaryCard from '../../components/summaryCard/SummaryCard';
-import { Colors } from '../../constants/Colors';
 import TextStyles from '../../constants/Texts';
 import { demo_animal, demo_crop, demo_summary, demo_task } from '../../data/FetchData';
 import styles from './Styles';
@@ -29,17 +35,6 @@ const Home = () => {
     const [addFood, setAddFood] = useState(0);
     const [reportClick, setReportClick] = useState<string>("");
 
-    const closeModal = () => {
-        setShowModal(false);
-        setAddFood(0);
-        setShowModalPage(0);
-        croplist_setOpen(false);
-        croplist_setValue(data_crop[0]);
-    }
-    const openModal = (report: string) => {
-        setShowModal(true);
-        setReportClick(report)
-    }
 
 
     useEffect(() => {
@@ -105,6 +100,7 @@ const Home = () => {
 
     const data_food = demo_summary.find(item => item.title === 'อาหาร (ฟาง)');
     const data_milk = demo_summary.find(item => item.title === 'ปริมาณน้ำนม');
+    const data_listCrop = demo_crop.map((crop) => ({ label: crop.name, value: crop.name }));
     const data_listAnimals = demo_animal.map(item => ({ label: item.name + ", " + item.code, value: item.name + ", " + item.code }));
     const data_crop = ["ทั้งหมด", ...demo_crop.map(item => item.name)];
     const foodTotal = data_food ? (data_food.textvalue2 ?? 0) : 0;
@@ -113,158 +109,61 @@ const Home = () => {
     const milkAverage = data_milk ? (data_milk.textvalue1 ?? 0) : 0;
 
     const [croplist_open, croplist_setOpen] = useState(false);
+    const [animallist_open, animallist_setOpen] = useState(false);
     const [croplist_value, croplist_setValue] = useState<string | null>(data_crop[0]);
-    const [croplist_items, croplist_setItems] = useState(data_crop.map((crop) => ({ label: crop, value: crop })));
-    const [animalMilk_value, animalMilk_setValue] = useState<string | null>(data_listAnimals[0].label);
+    const [animallist_value, animallist_setValue] = useState<string | null>(data_listAnimals[0].label);
 
-    const viewModal1 = () => {
-        return (
-            <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={TextStyles.text_head2}>จัดการอาหาร</Text>
-                <View style={{ width: '100%', marginTop: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <Pressable style={{ paddingVertical: 8, width: '100%', display: 'flex', borderBottomColor: '#00000022', borderBottomWidth: 1 }} onPress={() => { changePage(1) }}>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>บันทึกการให้อาหาร</Text>
-                    </Pressable>
-                    <Pressable style={{ paddingVertical: 8, width: '100%', display: 'flex', borderBottomColor: '#00000022', borderBottomWidth: 1 }} onPress={() => { changePage(2) }}>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>เพิ่มอาหารเข้าคลัง</Text>
-                    </Pressable>
-                </View>
-            </View>
-        )
+    const [nowWeight, setWeight] = useState<number>(0);
+    const [nowHeight, setHeight] = useState<number>(0);
+    const [nowLong, setLong] = useState<number>(0);
+
+    const [nowHealth, setHealth] = useState<string>("");
+
+    const closeModal = () => {
+        setShowModal(false);
+        setAddFood(0);
+        setShowModalPage(0);
+        croplist_setOpen(false);
+        animallist_setOpen(false);
+        croplist_setValue(data_crop[0]);
+        animallist_setValue(data_listAnimals[0].label);
     }
-
-    const viewModal2 = () => {
-        return (
-            <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={TextStyles.text_head2}>บันทึกการให้อาหาร</Text>
-                <View style={{ width: '100%', marginTop: 20, display: 'flex', flexDirection: 'column', padding: 12, backgroundColor: Colors.light.bg_warning, marginBottom: 24 }}>
-                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>ต้องการอาหารต่อวัน</Text>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>{foodDay} ก้อน</Text>
-                    </View>
-                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>อาหารในคลัง</Text>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>{foodTotal} ก้อน</Text>
-                    </View>
-                </View>
-                <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>จำนวนฟาง</Text>
-                <View style={{ display: 'flex', position: 'relative', width: '100%', marginVertical: 6 }}>
-                    <TextInput
-                        style={styles.home_styles.input}
-                        placeholder={"น้ำหนัก"}
-                        value={addFood.toString()}
-                        onChangeText={e => setAddFood(Number(e))}
-                        keyboardType="numeric"
-                    />
-                    <Text style={[TextStyles.text_head4, { color: Colors.light.main, position: 'absolute', right: 12, top: 6 }]}>ก้อน</Text>
-                </View>
-                <Button text="บันทึกจำนวนฟาง" theme="green" fn={closeModal} />
-            </View>
-        )
-    }
-
-    const viewModal3 = () => {
-        return (
-            <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={TextStyles.text_head2}>บันทึกการให้อาหาร</Text>
-                <View style={{ width: '100%', marginTop: 20, display: 'flex', flexDirection: 'column', padding: 12, backgroundColor: Colors.light.bg_warning, marginBottom: 24 }}>
-                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>ต้องการอาหารต่อวัน</Text>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>{foodDay.toLocaleString()} ก้อน</Text>
-                    </View>
-                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>อาหารในคลัง</Text>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>{foodTotal.toLocaleString()} ก้อน</Text>
-                    </View>
-                </View>
-                <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>เลือกคอก</Text>
-                <DropDownPicker
-                    open={croplist_open}
-                    value={croplist_value}
-                    items={croplist_items}
-                    setOpen={croplist_setOpen}
-                    setValue={croplist_setValue}
-                    setItems={croplist_setItems}
-                    multiple={false}
-                    style={{ borderColor: '#ccc', width: '100%', marginVertical: 6, marginBottom: 12 }}
-                />
-                <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>จำนวนฟาง</Text>
-                <View style={{ display: 'flex', position: 'relative', width: '100%', marginVertical: 6 }}>
-                    <TextInput
-                        style={styles.home_styles.input}
-                        placeholder={"น้ำหนัก"}
-                        value={addFood.toString()}
-                        onChangeText={e => setAddFood(Number(e))}
-                        keyboardType="numeric"
-                    />
-                    <Text style={[TextStyles.text_head4, { color: Colors.light.main, position: 'absolute', right: 12, top: 6 }]}>ก้อน</Text>
-                </View>
-                <Button text="บันทึก" theme="green" fn={closeModal} />
-            </View>
-        )
+    const openModal = (report: string) => {
+        setShowModal(true);
+        setReportClick(report)
     }
     
-    const viewModal4 = () => {
-        return (
-            <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={TextStyles.text_head2}>จัดการการให้นม</Text>
-                <View style={{ width: '100%', marginTop: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <Pressable style={{ paddingVertical: 8, width: '100%', display: 'flex', borderBottomColor: '#00000022', borderBottomWidth: 1 }} onPress={() => { changePage(1) }}>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>บันทึกการให้นม</Text>
-                    </Pressable>
-                </View>
-            </View>
-        )
-    }
+    const viewFoodModal = [
+        SelectFood({ changePage }), 
+        FoodPet({ closeModal, setAddFood, addFood, foodDay, foodTotal, croplist_open, croplist_value, data_listCrop, croplist_setOpen, croplist_setValue }),
+        FoodAdd({ closeModal, setAddFood, addFood, foodDay, foodTotal }), 
+    ];
 
-    const viewModal5 = () => {
-        return (
-            <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={TextStyles.text_head2}>บันทึกการให้นม</Text>
-                <View style={{ width: '100%', marginTop: 20, display: 'flex', flexDirection: 'column', padding: 12, backgroundColor: Colors.light.bg_warning, marginBottom: 24 }}>
-                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>ปริมาณเฉลี่ย</Text>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>{milkAverage.toLocaleString()} ลิตร</Text>
-                    </View>
-                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>ปริมาณมาตรฐาน</Text>
-                        <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>{milkStandard.toLocaleString()} ลิตร</Text>
-                    </View>
-                </View>
-                <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>เลือกคอก</Text>
-                <DropDownPicker
-                    open={croplist_open}
-                    value={animalMilk_value}
-                    items={data_listAnimals}
-                    setOpen={croplist_setOpen}
-                    setValue={animalMilk_setValue}
-                    multiple={false}
-                    style={{ borderColor: '#ccc', width: '100%', marginVertical: 6, marginBottom: 12 }}
-                />
-                <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>จำนวนฟาง</Text>
-                <View style={{ display: 'flex', position: 'relative', width: '100%', marginVertical: 6 }}>
-                    <TextInput
-                        style={styles.home_styles.input}
-                        placeholder={"น้ำหนัก"}
-                        value={addFood.toString()}
-                        onChangeText={e => setAddFood(Number(e))}
-                        keyboardType="numeric"
-                    />
-                    <Text style={[TextStyles.text_head4, { color: Colors.light.main, position: 'absolute', right: 12, top: 6 }]}>ลิตร</Text>
-                </View>
-                <Button text="บันทึก" theme="green" fn={closeModal} />
-            </View>
-        )
-    }
+    const viewMilkModal = [
+        SelectMilk({ changePage }),
+        MilkSave({ closeModal, setAddFood, addFood, milkAverage, milkStandard, animallist_open, animallist_value, data_listAnimals, animallist_setOpen, animallist_setValue })
+    ];
+    
+    const viewGlowModal = [
+        SelectGlow({ changePage }),
+        GlowSave({ closeModal, setWeight, setHeight, setLong, nowWeight, nowHeight, nowLong, croplist_open, croplist_value, data_listCrop, croplist_setOpen, croplist_setValue, animallist_open, animallist_value, data_listAnimals, animallist_setOpen, animallist_setValue })
+    ];
 
-    const viewFoodModal = [viewModal1(), viewModal2(), viewModal3()];
-    const viewMilkModal = [viewModal4(), viewModal5()];
+    const viewHealthModal = [
+        SelectHealth({ changePage }),
+        HealthSave({ closeModal, setHealth, nowHealth, croplist_open, croplist_value, data_listCrop, croplist_setOpen, croplist_setValue, animallist_open, animallist_value, data_listAnimals, animallist_setOpen, animallist_setValue })
+    ];
+    
     const viewModal = () => {
         switch (reportClick) {
             case "อาหาร (ฟาง)":
                 return viewFoodModal[showModalPage];
             case "ปริมาณน้ำนม":
                 return viewMilkModal[showModalPage];
+            case "การเติบโต":
+                return viewGlowModal[showModalPage];
+            case "สุขภาพ":
+                return viewHealthModal[showModalPage];
             default:
                 return null;
         }
@@ -367,10 +266,10 @@ const Home = () => {
                             { topic: '1-2 ปี', value: 154 },
                             { topic: '2-3 ปี', value: 62 },
                             { topic: '> 3 ปี', value: 118 }
-                        ]} textUnit={'ตัว'} dot={true} />
+                        ]} textUnit={'ตัว'} dot={false} />
                     </View>
                 </View>
-                <HomeFoodModal
+                <ShowModal
                     isVisible={showModal && viewModal() !== null}
                     onClose={closeModal}
                     content={viewModal()}

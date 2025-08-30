@@ -212,6 +212,7 @@ export const demo_summary: summaryProps[] = [
         "textvalue2": 0,
         "textunit": "ตัว",
         "status": "normal",
+        "dot": true,
         "lock": true
     },
     {
@@ -223,6 +224,7 @@ export const demo_summary: summaryProps[] = [
         "textvalue2": 2,
         "textunit": "ตัว",
         "status": "critical",
+        "dot": true,
         "lock": true
     },
     {
