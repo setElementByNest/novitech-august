@@ -5,7 +5,7 @@ interface Props {
     changePage: (page: number) => void;
 }
 
-export const SelectGlow = ({ changePage }: Props) => {
+export const SelectGrow = ({ changePage }: Props) => {
     return (
         <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Text style={TextStyles.text_head2}>จัดการการเติบโต</Text>

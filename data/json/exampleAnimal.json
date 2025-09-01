@@ -1,0 +1,109 @@
+{
+    "id": "M241129",
+    "name": "Bella",
+    "status": "normal",
+    "detail": {
+        "gender": "female",
+        "age": 6.4,
+        "birthday": "1 มกราคม 2542",
+        "location": "คอกกลาง 8-16",
+        "gene": "Murrah",
+        "dad": "M21917",
+        "mom": "M20988"
+    },
+    "health": {
+        "status": "normal",
+        "sick_count": 3,
+        "sick_last": "8 มกราคม",
+        "sick_list": [
+            {
+                "name": "ไข้เลือดออก",
+                "date": 1748307196,
+                "safe": true
+            },
+            {
+                "name": "ข้อเท้า ขาหลังซ้าย บวม",
+                "date": 1748786064,
+                "safe": false
+            },
+            {
+                "name": "ไข้เลือดออก",
+                "date": 1748307196,
+                "safe": true
+            }
+        ]
+    },
+    "vaccine": {
+        "next_round": "มิถุนายน",
+        "next_countdown": "2 เดือน",
+        "next_module": "วัคซีนแม่ควาย",
+        "vaccine_list": [
+            {
+                "name": "วัคซีนแรกเกิด",
+                "date": 1748786064,
+                "done": true
+            },
+            {
+                "name": "วัคซีนวันรุ่น",
+                "date": 1750678055,
+                "done": true
+            },
+            {
+                "name": "วัคซีนแม่ควาย",
+                "date": 1780678055,
+                "done": false
+            },
+            {
+                "name": "วัคซีนวันรุ่น",
+                "date": 1790678055,
+                "done": false
+            }
+        ]
+    },
+    "milk": {
+        "status": "warning",
+        "milked_quantity": 3.88,
+        "milked_last": "27 พฤษภาคม",
+        "milked_list": [
+            {
+                "date": 1748307196,
+                "amount": 5.0
+            },
+            {
+                "date": 1748786064,
+                "amount": 4.5
+            },
+            {
+                "date": 1748307196,
+                "amount": 5.0
+            }
+        ]
+    },
+    "grow": {
+        "status": "normal",
+        "weight": 418,
+        "height": 174,
+        "growth_list": [
+            {
+                "date": 1748307196,
+                "weight": 418,
+                "height": 174
+            },
+            {
+                "date": 1748786064,
+                "weight": 420,
+                "height": 175
+            },
+            {
+                "date": 1748307196,
+                "weight": 418,
+                "height": 174
+            }
+        ]
+    },
+    "heat": {
+        "heat_countdown": "4 วัน",
+        "heat_next": "14 มิถุนายน",
+        "heat_last": "12 พฤษภาคม"
+    }
+}

@@ -1,11 +1,19 @@
-import SummaryCard, { AddCardList } from '@/components/summaryCard/SummaryCard';
+import ShowModal from '@/components/modal/ShowModal';
+import { CropAdd } from '@/components/modal/modalCrop/CropAdd';
+import { CropAnimalAdd } from '@/components/modal/modalCrop/CropAnimalAdd';
+import { CropAnimalDelete } from '@/components/modal/modalCrop/CropAnimalDelete';
+import { CropAnimalList } from '@/components/modal/modalCrop/CropAnimalList';
+import { CropDelete } from '@/components/modal/modalCrop/CropDelete';
+import { SelectCrop } from '@/components/modal/modalCrop/SelectCrop';
+import SummaryCard from '@/components/summaryCard/SummaryCard';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
 import React, { useContext, useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import TextStyles from '../../constants/Texts';
 import { FocusAnimalContext } from '../../contexts/FocusAnimalContext';
 import { AnimalContext, AnimalProps } from '../../contexts/ListAnimalContext';
-import { demo_animal, demo_crop } from '../../data/FetchData';
+import { demo_crop } from '../../data/FetchData';
 import styles from './Styles';
 
 type TaskProps = {
@@ -37,9 +45,22 @@ const Crop = () => {
     const [nowFilter, setNowFilter] = useState<number>(1);
     const [showAdd, setShowAdd] = useState(false);
 
+
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [nowPage, setPage] = useState<number>(0);
+    const [selectCrop, setSelectCrop] = useState<string>("");
+
     const closeModal = () => {
-        setShowAdd(false);
+        setShowModal(false);
     }
+    const modalContent = [
+        CropAdd({ closeModal }),
+        SelectCrop({ changePage: setPage, selectCrop }),
+        CropAnimalList({ selectCrop }),
+        CropAnimalAdd({ closeModal, selectCrop }),
+        CropAnimalDelete({ closeModal, changePage: setPage }),
+        CropDelete({ closeModal, selectCrop })
+    ];
 
     const loadAnimalData = async () => {
         const dirUri = FileSystem.documentDirectory + 'data/';
@@ -77,73 +98,6 @@ const Crop = () => {
         }
     };
 
-    const dataExpo_showlist = async () => {
-        const dirUri = FileSystem.documentDirectory + 'data/';
-        try {
-            // Create directory if needed
-            const dirInfo = await FileSystem.getInfoAsync(dirUri);
-            if (!dirInfo.exists) {
-                await FileSystem.makeDirectoryAsync(dirUri, { intermediates: true });
-            }
-            // Read all file names in the directory
-            const dirFiles = await FileSystem.readDirectoryAsync(dirUri);
-            console.log("Files in directory:", dirFiles);
-            loadAnimalData();
-        } catch (error) {
-            console.error("Error during file write/read:", error);
-        }
-    }
-
-    const dataExpo_deletelist = async () => {
-        const dirUri = FileSystem.documentDirectory + 'data/';
-        try {
-            // Show all file names in dirUri
-            const filesBefore = await FileSystem.readDirectoryAsync(dirUri);
-            console.log('Files before deletion:', filesBefore);
-
-            // Delete all files
-            await Promise.all(
-                filesBefore.map(async (file) => {
-                    await FileSystem.deleteAsync(dirUri + file, { idempotent: true });
-                })
-            );
-
-            // Show all file names after deletion
-            const filesAfter = await FileSystem.readDirectoryAsync(dirUri);
-            console.log('Files after deletion:', filesAfter);
-            loadAnimalData();
-
-        } catch (error) {
-            console.error("Error during file write/read:", error);
-        }
-    }
-
-    const dataExpo_demosavelist = async () => {
-        const dirUri = FileSystem.documentDirectory + 'data/';
-        try {
-            // Check and create directory
-            const dirInfo = await FileSystem.getInfoAsync(dirUri);
-            if (!dirInfo.exists) {
-                await FileSystem.makeDirectoryAsync(dirUri, { intermediates: true });
-            }
-
-            // Loop through animals and write each to its own file
-            for (const animal of demo_animal) {
-                const fileUri = `${dirUri}${animal.code}.txt`;
-                const dataToSave = JSON.stringify(animal); // Save as JSON string
-                await FileSystem.writeAsStringAsync(fileUri, dataToSave);
-                console.log(`Saved: ${fileUri}`);
-            }
-
-            // Verify saved files
-            const dirFiles = await FileSystem.readDirectoryAsync(dirUri);
-            console.log("Files in directory:", dirFiles);
-            loadAnimalData();
-
-        } catch (error) {
-            console.error("Error saving animal data:", error);
-        }
-    };
     useEffect(() => {
         loadAnimalData();
     }, []);
@@ -192,7 +146,7 @@ const Crop = () => {
                                 <SummaryCard
                                     key={index}
                                     title={item.name}
-                                    textHead={item.status}
+                                    textHead={item.status == "normal" ? "ปกติ" : "ผิดปกติ"}
                                     textSub1={"จำนวนสัตว์"}
                                     textValue1={(item.countall).toString()}
                                     textSub2={"ปริมาณอาหาร"}
@@ -201,13 +155,21 @@ const Crop = () => {
                                     status={item.status}
                                     dot={true}
                                     lock={false}
+                                    onClick={() => { setSelectCrop(item.name); setShowModal(true); setPage(1); }}
                                 />
                             ))
                         }
-                        <AddCardList />
                     </View>
                 </View>
             </ScrollView >
+            <Pressable style={styles.livestock_styles.plusIcon} onPress={() => { setShowModal(true); setPage(0); }}>
+                <MaterialCommunityIcons name="plus" size={32} color={'white'} />
+            </Pressable>
+            <ShowModal
+                isVisible={showModal}
+                onClose={closeModal}
+                content={modalContent[nowPage]}
+            />
         </View >
     )
 }

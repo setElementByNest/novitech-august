@@ -52,7 +52,7 @@ export const MilkSave = ({
                 multiple={false}
                 style={{ borderColor: '#ccc', width: '100%', marginVertical: 6, marginBottom: 12 }}
             />
-            <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>จำนวนฟาง</Text>
+            <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>ปริมาณน้ำนม</Text>
             <View style={{ display: 'flex', position: 'relative', width: '100%', marginVertical: 6 }}>
                 <TextInput
                     style={styles.input}

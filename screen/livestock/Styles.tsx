@@ -1,5 +1,5 @@
+import { Colors } from '@/constants/Colors';
 import { StyleSheet } from 'react-native';
-import { Color } from '../../components/Colors';
 
 const styles = StyleSheet.create({
     container_center: {
@@ -23,17 +23,17 @@ const styles = StyleSheet.create({
     },
     text_head1: {
         fontSize: 26,
-        color: Color.text1,
+        color: Colors.light.main,
         fontFamily: 'Kanit600',
     },
     text_head2: {
         fontSize: 24,
-        color: Color.text1,
+        color: Colors.light.main,
         fontFamily: 'Kanit400',
     },
     text_head3: {
         fontSize: 18,
-        color: Color.text3,
+        color: Colors.light.main,
         margin: 0,
         padding: 0,
         fontFamily: 'Kanit400',
@@ -45,14 +45,14 @@ const styles = StyleSheet.create({
     },
     text_head4: {
         fontSize: 20,
-        color: Color.text3,
+        color: Colors.light.main,
         marginVertical: 6,
         fontFamily: 'Kanit400',
     },
     text_head4_gray: {
         fontSize: 18,
         marginVertical: 6,
-        color: Color.text4,
+        color: Colors.light.gray,
         fontFamily: 'Kanit400',
     },
     text_head5_red: {
@@ -198,11 +198,11 @@ const livestock_styles = StyleSheet.create({
     },
     plusIcon: {
         position: 'absolute',
-        bottom: 40,
+        bottom: 20,
         right: 20,
         padding: 10,
         borderRadius: 50,
-        backgroundColor: '#2e6b50'
+        backgroundColor: Colors.light.main,
     },
 });
 

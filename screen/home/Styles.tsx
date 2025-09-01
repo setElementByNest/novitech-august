@@ -276,6 +276,11 @@ const cardtodo_styles = StyleSheet.create({
         backgroundColor: '#4CB59144',
         color: '#555',
     },
+    taskRow_change: {
+        textDecorationLine: 'line-through',
+        backgroundColor: Colors.light.bg_warning,
+        color: '#555',
+    },
     taskText: {
         fontSize: 16,
         fontFamily: 'Kanit300',

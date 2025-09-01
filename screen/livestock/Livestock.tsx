@@ -1,3 +1,6 @@
+import { AnimalAdd } from '@/components/modal/modalLivestock/AnimalAdd';
+import { ShowDetail } from '@/components/modal/modalLivestock/ShowDetail';
+import ShowModal from '@/components/modal/ShowModal';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
 import React, { useContext, useEffect, useState } from 'react';
@@ -6,8 +9,7 @@ import AnimalCardList from '../../components/petCard/Petcard';
 import TextStyles from '../../constants/Texts';
 import { FocusAnimalContext } from '../../contexts/FocusAnimalContext';
 import { AnimalContext, AnimalProps } from '../../contexts/ListAnimalContext';
-import { demo_animal } from '../../data/FetchData';
-import AddModal from './AddModal';
+import { demo_animal, demo_animal_detail } from '../../data/FetchData';
 import styles from './Styles';
 
 type TaskProps = {
@@ -41,8 +43,23 @@ const Livestock = () => {
     const [gridView, setGridView] = useState<boolean>(true);
     const [showAdd, setShowAdd] = useState(false);
 
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [nowPage, setPage] = useState<number>(0);
+
     const closeModal = () => {
         setShowAdd(false);
+        setShowModal(false);
+    }
+
+    const openAnimalModal = (report: string) => {
+        setShowModal(true);
+        setFocusAnimal(report);
+        setPage(0);
+    }
+
+    const openAddAnimalModal = () => {
+        setShowModal(true);
+        setPage(1);
     }
 
     const loadAnimalData = async () => {
@@ -153,19 +170,19 @@ const Livestock = () => {
     }, []);
     useEffect(() => {
         setFilter(filterList);
-        const sortedAnimals_name = animals.sort((a, b) => a.code.localeCompare(b.code));
+        const sortedAnimals_name = demo_animal.sort((a, b) => a.code.localeCompare(b.code));
         const sortedAnimals = sortedAnimals_name.sort((a, b) => {
             const indexA = statusOrder.findIndex(status => a.status.includes(status));
             const indexB = statusOrder.findIndex(status => b.status.includes(status));
             return indexA - indexB;
         });
         setDataPet(sortedAnimals);
-        console.log(animals)
-    }, [animals]);
+        console.log(demo_animal)
+    }, [demo_animal]);
 
     useEffect(() => {
         const selectedFilter = filter.find(item => Number(item.id) === nowFilter);
-        const sortedAnimals_name = animals.sort((a, b) => a.code.localeCompare(b.code));
+        const sortedAnimals_name = demo_animal.sort((a, b) => a.code.localeCompare(b.code));
         const sortedAnimals = sortedAnimals_name.sort((a, b) => {
             const indexA = statusOrder.findIndex(status => a.status.includes(status));
             const indexB = statusOrder.findIndex(status => b.status.includes(status));
@@ -175,7 +192,11 @@ const Livestock = () => {
             ? sortedAnimals.filter(animal => animal.status === selectedFilter.title)
             : sortedAnimals;
         setDataPet(filteredPets);
+        console.log(filter)
+        console.log(sortedAnimals_name)
     }, [nowFilter]);
+
+    const modalContent = [ShowDetail({ closeModal, demo_animal_detail }), AnimalAdd({ closeModal })];
 
     return (
         <View style={{ width: '100%', height: '100%', position: 'relative', justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -196,16 +217,16 @@ const Livestock = () => {
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, flexWrap: 'wrap' }}>
                         {
                             dataPet.map((animal, i) => (
-                                <AnimalCardList animals={animal} gridView={gridView} key={i} fn={() => {setFocusAnimal(animal.code);}} />
+                                <AnimalCardList animals={animal} gridView={gridView} key={i} fn={() => { openAnimalModal(animal.code); }} />
                             ))
                         }
                     </View>
                 </View>
             </ScrollView >
-            <Pressable onPress={() => { setShowAdd(true) }} style={styles.livestock_styles.plusIcon}>
+            <Pressable onPress={openAddAnimalModal} style={styles.livestock_styles.plusIcon}>
                 <MaterialCommunityIcons name="plus" size={32} color={'white'} />
             </Pressable>
-            <Pressable onPress={dataExpo_showlist} style={[styles.livestock_styles.plusIcon, { right: 80, backgroundColor: '#444', borderRadius: 0 }]}>
+            {/* <Pressable onPress={dataExpo_showlist} style={[styles.livestock_styles.plusIcon, { right: 80, backgroundColor: '#444', borderRadius: 0 }]}>
                 <MaterialCommunityIcons name="view-list" size={32} color={'white'} />
             </Pressable>
             <Pressable onPress={dataExpo_deletelist} style={[styles.livestock_styles.plusIcon, { right: 140, backgroundColor: '#444', borderRadius: 0 }]}>
@@ -213,8 +234,13 @@ const Livestock = () => {
             </Pressable>
             <Pressable onPress={dataExpo_demosavelist} style={[styles.livestock_styles.plusIcon, { right: 200, backgroundColor: '#444', borderRadius: 0 }]}>
                 <MaterialCommunityIcons name="auto-upload" size={32} color={'white'} />
-            </Pressable>
-            <AddModal isVisible={showAdd} onClose={closeModal} />
+            </Pressable> */}
+            {/* <AddModal isVisible={showAdd} onClose={closeModal} /> */}
+            <ShowModal
+                isVisible={showModal}
+                onClose={closeModal}
+                content={modalContent[nowPage]}
+            />
         </View >
     )
 }

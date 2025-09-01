@@ -14,7 +14,7 @@ interface Props {
 export const FoodAdd = ({ closeModal, setAddFood, addFood, foodDay, foodTotal }: Props) => {
     return (
         <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={TextStyles.text_head2}>บันทึกการให้อาหาร</Text>
+            <Text style={TextStyles.text_head2}>เพิ่มอาหารเข้าคลัง</Text>
             <View style={{ width: '100%', marginTop: 20, display: 'flex', flexDirection: 'column', padding: 12, backgroundColor: Colors.light.bg_warning, marginBottom: 24 }}>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Text style={[TextStyles.text_head5, { textAlign: 'left' }]}>ต้องการอาหารต่อวัน</Text>

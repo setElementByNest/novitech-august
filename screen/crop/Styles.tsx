@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/Colors';
 import { StyleSheet } from 'react-native';
 import { Color } from '../../components/Colors';
 
@@ -198,11 +199,11 @@ const livestock_styles = StyleSheet.create({
     },
     plusIcon: {
         position: 'absolute',
-        bottom: 40,
+        bottom: 20,
         right: 20,
         padding: 10,
         borderRadius: 50,
-        backgroundColor: '#2e6b50'
+        backgroundColor: Colors.light.dark,
     },
 });
 

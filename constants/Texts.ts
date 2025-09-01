@@ -40,10 +40,15 @@ const TextStyles = StyleSheet.create({
     text_head5: {
         fontSize: 16,
         color: Colors.light.dark,
-        fontFamily: 'Kanit300',
+        fontFamily: 'Kanit400',
     },
     text_head5_red: {
         color: '#c44',
+        fontSize: 16,
+        fontFamily: 'Kanit400',
+    },
+    text_head5_gray: {
+        color: Colors.light.gray,
         fontSize: 16,
         fontFamily: 'Kanit400',
     }

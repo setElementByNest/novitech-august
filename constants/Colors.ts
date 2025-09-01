@@ -18,6 +18,7 @@ export const Colors = {
     submain: tintColorLight,
     dark: '#000',
     gray: '#888',
+    gray_light: '#aaa',
     light: '#fff',
     red: '#c00',
     main_normal: '#2F8668',

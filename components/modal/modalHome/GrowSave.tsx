@@ -25,7 +25,7 @@ interface Props {
     animallist_setValue: Dispatch<SetStateAction<string | null>>;
 }
 
-export const GlowSave = ({
+export const GrowSave = ({
     closeModal,
     setWeight,
     setHeight,

@@ -1,3 +1,5 @@
+import dataAnimal from '@/data/json/exampleAnimal.json';
+import dataTasks from '@/data/json/task.json';
 import axios from 'axios';
 
 const fetchGet = async () => {
@@ -37,58 +39,9 @@ type Crop = {
     food: number;
 }
 
-export const demo_task: (TaskProps)[] = [
-    { "_id": 1, "name": "ฉีดวัคซีน MorrhaTic Ticaegia", "status": "completed", "timestamp": 1754131200 },
-    { "_id": 2, "name": "ตรวจสุขภาพควาย", "status": "pending", "timestamp": 1754217600 },
-    { "_id": 3, "name": "จัดทำบันทึกสุขภาพควาย", "status": "completed", "timestamp": 1754304000 },
-    { "_id": 4, "name": "เปลี่ยนฟางในโรงเรือน", "status": "completed", "timestamp": 1754390400 },
-    { "_id": 5, "name": "ชั่งน้ำหนักควาย 28 ตัว", "status": "completed", "timestamp": 1754476800 },
-    { "_id": 6, "name": "เก็บขี้ควาย", "status": "pending", "timestamp": 1754563200 },
-    { "_id": 7, "name": "ซ่อมหลังคาโรงเรือน", "status": "completed", "timestamp": 1754649600 },
-    { "_id": 8, "name": "ตัดเล็บเท้าควาย 5 ตัว", "status": "pending", "timestamp": 1754736000 },
-    { "_id": 9, "name": "ชั่งน้ำหนักควาย 28 ตัว", "status": "completed", "timestamp": 1754822400 },
-    { "_id": 10, "name": "เก็บขี้ควาย", "status": "pending", "timestamp": 1754908800 },
-    { "_id": 11, "name": "ตรวจสุขภาพควาย", "status": "pending", "timestamp": 1754995200 },
-    { "_id": 12, "name": "ให้อาหารเสริมโปรตีน", "status": "pending", "timestamp": 1755081600 },
-    { "_id": 13, "name": "เก็บตัวอย่างมูลส่งแลป", "status": "pending", "timestamp": 1755168000 },
-    { "_id": 14, "name": "ชั่งน้ำหนักควาย 28 ตัว", "status": "completed", "timestamp": 1755254400 },
-    { "_id": 15, "name": "ให้อาหารเสริมโปรตีน", "status": "pending", "timestamp": 1755340800 },
-    { "_id": 16, "name": "ซ่อมแซมรั้วคอกควาย", "status": "completed", "timestamp": 1755427200 },
-    { "_id": 17, "name": "ฉีดวัคซีน Haemorrhagic Septicaemia", "status": "pending", "timestamp": 1755513600 },
-    { "_id": 19, "name": "ล้างบ่อเก็บน้ำ", "status": "pending", "timestamp": 1755600000 },
-    { "_id": 20, "name": "ซ่อมแซมรั้วคอกควาย", "status": "completed", "timestamp": 1755686400 },
-    { "_id": 21, "name": "ซ่อมหลังคาโรงเรือน", "status": "pending", "timestamp": 1755772800 },
-    { "_id": 22, "name": "ชั่งน้ำหนักควาย 28 ตัว", "status": "completed", "timestamp": 1755859200 },
-    { "_id": 23, "name": "เก็บขี้ควาย", "status": "pending", "timestamp": 1755945600 },
-    { "_id": 24, "name": "จัดทำบันทึกสุขภาพควาย", "status": "pending", "timestamp": 1756032000 },
-    { "_id": 25, "name": "เก็บขี้ควาย", "status": "completed", "timestamp": 1756118400 },
-    { "_id": 26, "name": "ตัดเล็บเท้าควาย 5 ตัว", "status": "pending", "timestamp": 1756204800 },
-    { "_id": 27, "name": "เก็บขี้ควาย", "status": "completed", "timestamp": 1756291200 },
-    { "_id": 28, "name": "เก็บขี้ควาย", "status": "pending", "timestamp": 1756377600 },
-    { "_id": 29, "name": "ซ่อมแซมรั้วคอกควาย", "status": "completed", "timestamp": 1756464000 },
-    { "_id": 30, "name": "เก็บตัวอย่างเลือดควาย 3 ตัว", "status": "pending", "timestamp": 1756550400 },
-    { "_id": 31, "name": "ฉีดวัคซีน MorrhaTic Ticaegia", "status": "pending", "timestamp": 1756636800 },
-    { "_id": 32, "name": "ตรวจวัดอุณหภูมิคอก", "status": "completed", "timestamp": 1756723200 },
-    { "_id": 33, "name": "จัดทำบันทึกสุขภาพควาย", "status": "completed", "timestamp": 1756809600 },
-    { "_id": 34, "name": "ให้อาหารเสริมโปรตีน", "status": "completed", "timestamp": 1756896000 },
-    { "_id": 35, "name": "ล้างบ่อเก็บน้ำ", "status": "completed", "timestamp": 1756982400 },
-    { "_id": 36, "name": "เก็บตัวอย่างมูลส่งแลป", "status": "completed", "timestamp": 1757068800 },
-    { "_id": 37, "name": "อาบน้ำควาย 10 ตัว", "status": "pending", "timestamp": 1757155200 },
-    { "_id": 38, "name": "เก็บตัวอย่างมูลส่งแลป", "status": "pending", "timestamp": 1757241600 },
-    { "_id": 39, "name": "เก็บขี้ควาย", "status": "completed", "timestamp": 1757328000 },
-    { "_id": 40, "name": "เปลี่ยนฟางในโรงเรือน", "status": "pending", "timestamp": 1757414400 },
-    { "_id": 41, "name": "ชั่งน้ำหนักควาย 28 ตัว", "status": "pending", "timestamp": 1757500800 },
-    { "_id": 42, "name": "ตรวจวัดอุณหภูมิคอก", "status": "pending", "timestamp": 1757587200 },
-    { "_id": 43, "name": "อาบน้ำควาย 10 ตัว", "status": "completed", "timestamp": 1757673600 },
-    { "_id": 44, "name": "เก็บขี้ควาย", "status": "pending", "timestamp": 1757760000 },
-    { "_id": 45, "name": "ซ่อมหลังคาโรงเรือน", "status": "pending", "timestamp": 1757846400 },
-    { "_id": 46, "name": "เก็บตัวอย่างมูลส่งแลป", "status": "pending", "timestamp": 1757932800 },
-    { "_id": 47, "name": "ให้อาหารหยาบ", "status": "pending", "timestamp": 1758019200 },
-    { "_id": 48, "name": "ฉีดวัคซีน Haemorrhagic Septicaemia", "status": "completed", "timestamp": 1758105600 },
-    { "_id": 49, "name": "เปลี่ยนฟางในโรงเรือน", "status": "completed", "timestamp": 1758192000 },
-    { "_id": 50, "name": "เก็บขี้ควาย", "status": "pending", "timestamp": 1758278400 }
-];
-
+export const demo_task: TaskProps[] = Array.isArray(dataTasks)
+  ? (dataTasks as TaskProps[])
+  : [];
 
 
 export const demo_animal: Animal[] = [
@@ -264,5 +217,6 @@ export const demo_summary: summaryProps[] = [
     }
 ]
 
+export const demo_animal_detail = dataAnimal;
 
 export default fetchGet

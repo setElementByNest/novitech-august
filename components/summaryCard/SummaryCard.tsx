@@ -62,7 +62,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
 export const AddCardList = () => {
     return (
         <Pressable style={[styles.card, { display: 'flex', flexDirection: 'column', backgroundColor: '#0000001f', alignItems: 'center', justifyContent: 'center' }]} onPress={() => {  }}>
-            <Text>+</Text>
+            <Text style={{ fontSize: 32, color: '#000' }}>+</Text>
         </Pressable>
     );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 
@@ -9,18 +9,28 @@ interface ShowModalProps {
 }
 
 const ShowModal: React.FC<ShowModalProps> = ({ isVisible, onClose, content }) => {
+    const [containerHeight, setContainerHeight] = useState<number>(0);
     return (
         <Modal
             isVisible={isVisible}
             onBackdropPress={onClose}
+            onSwipeComplete={onClose}
             swipeDirection="down"
             style={styles.modal}
             backdropTransitionOutTiming={0}
             scrollHorizontal={false}
             propagateSwipe={true}
-            avoidKeyboard={true}>
-           <View style={[styles.container, { maxHeight: '80%' }]}>
-                <View style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, padding: 16, backgroundColor: 'white', borderRadius: 8 }}>
+            avoidKeyboard={true}
+            swipeThreshold={0.35 * containerHeight}
+        >
+            <View style={[styles.container, { maxHeight: '90%' }]}>
+                <View style={{ width: '25%', height: 4, backgroundColor: '#444', alignSelf: 'center', borderRadius: 2, marginBottom: 12 }} />
+                <View
+                    onLayout={(event) => {
+                        const { height } = event.nativeEvent.layout;
+                        setContainerHeight(height);
+                    }}
+                    style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, padding: 16, backgroundColor: 'white', borderRadius: 8 }}>
                     {content}
                 </View>
             </View>

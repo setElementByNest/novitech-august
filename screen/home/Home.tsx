@@ -1,10 +1,11 @@
+import Button from '@/components/button/Button';
 import { FoodAdd } from '@/components/modal/modalHome/FoodAdd';
 import { FoodPet } from '@/components/modal/modalHome/FoodPet';
-import { GlowSave } from '@/components/modal/modalHome/GlowSave';
+import { GrowSave } from '@/components/modal/modalHome/GrowSave';
 import { HealthSave } from '@/components/modal/modalHome/HealthSave';
 import { MilkSave } from '@/components/modal/modalHome/MilkSave';
 import { SelectFood } from '@/components/modal/modalHome/SelectFood';
-import { SelectGlow } from '@/components/modal/modalHome/SelectGlow';
+import { SelectGrow } from '@/components/modal/modalHome/SelectGrow';
 import { SelectHealth } from '@/components/modal/modalHome/SelectHealth';
 import { SelectMilk } from '@/components/modal/modalHome/SelectMilk';
 import ShowModal from '@/components/modal/ShowModal';
@@ -28,6 +29,7 @@ const Home = () => {
     const [listDay, setListDay] = useState<number[]>([]);
     const [lock, setLock] = useState<boolean>(false)
     const [tasks, setTasks] = useState<TaskProps[]>([]);
+    const [tasks_change, setTasks_change] = useState<TaskProps[]>([]);
     const [allTasks, setAllTasks] = useState<TaskProps[]>([]);
     const [selectDay, setSelectDay] = useState<number>(new Date().getDate());
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -60,23 +62,23 @@ const Home = () => {
         }
         setListDay(days);
         setSelectDay(toDay.getDate());
-        setTasks(
-            filteredTasks.filter((task) => {
-                const dayTask = new Date(task.timestamp * 1000);
-                return dayTask.getDate() === toDay.getDate();
-            })
-        );
+        const filterListTask = filteredTasks.filter((task) => {
+            const dayTask = new Date(task.timestamp * 1000);
+            return dayTask.getDate() === toDay.getDate();
+        })
+        setTasks(filterListTask);
+        setTasks_change(filterListTask);
         setLock(false)
     }, []);
 
     const onPressSelectDay = (day: number) => {
         setSelectDay(day);
-        setTasks(
-            allTasks.filter((task) => {
-                const dayTask = new Date(task.timestamp * 1000);
-                return dayTask.getDate() === day;
-            })
-        );
+        const filerListTask_day = allTasks.filter((task) => {
+            const dayTask = new Date(task.timestamp * 1000);
+            return dayTask.getDate() === day;
+        })
+        setTasks(filerListTask_day);
+        setTasks_change(filerListTask_day);
     };
 
     const toggleTask = (id: number) => {
@@ -86,13 +88,33 @@ const Home = () => {
                     ? { ...task, status: task.status === 'completed' ? 'pending' : 'completed' }
                     : task
             );
-            setTasks(updatedTasks.filter(task => {
+            setTasks_change(updatedTasks.filter(task => {
                 const dayTask = new Date(task.timestamp * 1000);
                 return dayTask.getDate() === selectDay;
             }));
             return updatedTasks;
         });
     };
+    
+    const toggleTask_confirm = () => {
+       setTasks(tasks_change);
+    }
+
+    const toggleTask_cancel = () => {
+        setTasks_change(tasks);
+        setAllTasks(prev => {
+            const updatedTasks = prev.map(task => {
+                const originalTask = tasks.find(t => t._id === task._id);
+                return originalTask ? { ...task, status: originalTask.status } : task;
+            });
+            setTasks_change(updatedTasks.filter(task => {
+                const dayTask = new Date(task.timestamp * 1000);
+                return dayTask.getDate() === selectDay;
+            }));
+            return updatedTasks;
+        });
+    }
+
 
     const changePage = (page: number) => {
         setShowModalPage(page);
@@ -109,8 +131,8 @@ const Home = () => {
     const milkAverage = data_milk ? (data_milk.textvalue1 ?? 0) : 0;
 
     const [croplist_open, croplist_setOpen] = useState(false);
-    const [animallist_open, animallist_setOpen] = useState(false);
     const [croplist_value, croplist_setValue] = useState<string | null>(data_crop[0]);
+    const [animallist_open, animallist_setOpen] = useState(false);
     const [animallist_value, animallist_setValue] = useState<string | null>(data_listAnimals[0].label);
 
     const [nowWeight, setWeight] = useState<number>(0);
@@ -132,28 +154,28 @@ const Home = () => {
         setShowModal(true);
         setReportClick(report)
     }
-    
+
     const viewFoodModal = [
-        SelectFood({ changePage }), 
+        SelectFood({ changePage }),
         FoodPet({ closeModal, setAddFood, addFood, foodDay, foodTotal, croplist_open, croplist_value, data_listCrop, croplist_setOpen, croplist_setValue }),
-        FoodAdd({ closeModal, setAddFood, addFood, foodDay, foodTotal }), 
+        FoodAdd({ closeModal, setAddFood, addFood, foodDay, foodTotal }),
     ];
 
     const viewMilkModal = [
         SelectMilk({ changePage }),
         MilkSave({ closeModal, setAddFood, addFood, milkAverage, milkStandard, animallist_open, animallist_value, data_listAnimals, animallist_setOpen, animallist_setValue })
     ];
-    
-    const viewGlowModal = [
-        SelectGlow({ changePage }),
-        GlowSave({ closeModal, setWeight, setHeight, setLong, nowWeight, nowHeight, nowLong, croplist_open, croplist_value, data_listCrop, croplist_setOpen, croplist_setValue, animallist_open, animallist_value, data_listAnimals, animallist_setOpen, animallist_setValue })
+
+    const viewGrowModal = [
+        SelectGrow({ changePage }),
+        GrowSave({ closeModal, setWeight, setHeight, setLong, nowWeight, nowHeight, nowLong, croplist_open, croplist_value, data_listCrop, croplist_setOpen, croplist_setValue, animallist_open, animallist_value, data_listAnimals, animallist_setOpen, animallist_setValue })
     ];
 
     const viewHealthModal = [
         SelectHealth({ changePage }),
         HealthSave({ closeModal, setHealth, nowHealth, croplist_open, croplist_value, data_listCrop, croplist_setOpen, croplist_setValue, animallist_open, animallist_value, data_listAnimals, animallist_setOpen, animallist_setValue })
     ];
-    
+
     const viewModal = () => {
         switch (reportClick) {
             case "อาหาร (ฟาง)":
@@ -161,13 +183,15 @@ const Home = () => {
             case "ปริมาณน้ำนม":
                 return viewMilkModal[showModalPage];
             case "การเติบโต":
-                return viewGlowModal[showModalPage];
+                return viewGrowModal[showModalPage];
             case "สุขภาพ":
                 return viewHealthModal[showModalPage];
             default:
                 return null;
         }
     }
+
+    const check_change = JSON.stringify(tasks) === JSON.stringify(tasks_change)
 
     return (
         <View style={styles.home_styles.viewmain}>
@@ -186,7 +210,7 @@ const Home = () => {
                     <View>
                         <View style={styles.home_styles.calendar_head}>
                             <Text style={TextStyles.text_head4}>{(new Date()).toLocaleString('default', { month: 'long' })}, {new Date().getFullYear()}</Text>
-                            <Pressable><Text style={TextStyles.text_head4_gray}>ดูทั้งหมด</Text></Pressable>
+                            {/* <Pressable><Text style={TextStyles.text_head4_gray}>ดูทั้งหมด</Text></Pressable> */}
                         </View>
                         <View style={styles.home_styles.calendar}>
                             {listDay.map((day, index) => (
@@ -196,7 +220,7 @@ const Home = () => {
                                         styles.home_styles.listItem,
                                         selectDay === day ? styles.home_styles.listItem : styles.home_styles.listItem_disabled,
                                     ]}
-                                    onPress={() => onPressSelectDay(day)}
+                                    onPress={() => {check_change ? onPressSelectDay(day) : null}}
                                 >
                                     <Text style={selectDay === day ? styles.home_styles.listItemText : styles.home_styles.listItemText_disabled}>{day}</Text>
 
@@ -208,13 +232,15 @@ const Home = () => {
                                 <Text style={styles.cardtodo_styles.card_header_text}>สิ่งที่ต้องทำ</Text>
                                 <MaterialCommunityIcons style={styles.cardtodo_styles.card_header_icon} name="dots-horizontal" />
                             </View>
-                            {tasks.length > 0 ? (
-                                tasks.map((task, i) => (
+                            {tasks_change.length > 0 ? (
+                                tasks_change.map((task, i) => {
+                                    return(
                                     <Pressable
                                         key={i}
                                         style={[
                                             styles.cardtodo_styles.taskRow,
-                                            (task.status == 'completed') && styles.cardtodo_styles.taskRow_completed
+                                            (task.status == 'completed' && check_change) && styles.cardtodo_styles.taskRow_completed,
+                                            (tasks[i]?.status !== tasks_change[i].status) && styles.cardtodo_styles.taskRow_change
                                         ]}
                                         onPress={() => toggleTask(task._id)}
                                     >
@@ -228,13 +254,17 @@ const Home = () => {
                                             {task.status == 'completed' ? 'เสร็จสิ้น' : ''}
                                         </Text>
                                     </Pressable>
-                                ))
+                                )})
                             ) : (
                                 <View>
                                     <Text style={[styles.cardtodo_styles.taskText, { opacity: 0.5, textAlign: 'center', fontSize: 24 }]}>ว่าง</Text>
                                     <Text style={[styles.cardtodo_styles.taskText, { opacity: 0.5, textAlign: 'center' }]}>ไม่มีรายการที่ต้องทำ</Text>
                                 </View>
                             )}
+                            <View style={{ width: '100%', alignItems: 'center', marginTop: 18, display: !check_change ? 'flex' : 'none' }}>
+                                <Button text="บันทึกการแก้ไข" theme="green" fn={toggleTask_confirm} />
+                                <Button text="ยกเลิก" theme="gray" fn={toggleTask_cancel} />
+                            </View>
                         </View>
                     </View>
 
