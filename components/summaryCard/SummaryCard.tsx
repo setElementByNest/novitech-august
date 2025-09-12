@@ -10,7 +10,8 @@ type SummaryCardProps = {
     textSub2: string;
     textValue1: string;
     textValue2: string;
-    textUnit: string;
+    textUnit1: string;
+    textUnit2: string;
     status: 'normal' | 'warning' | 'critical';
     dot?: boolean;
     onClick?: () => void;
@@ -29,7 +30,8 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
     textSub2,
     textValue1,
     textValue2,
-    textUnit,
+    textUnit1,
+    textUnit2,
     status,
     dot,
     lock,
@@ -47,11 +49,11 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
                     <Text style={[styles.mainCount, { color: statusColors.color }]}>{textHead}</Text>
                     <View style={styles.headerRow}>
                         <Text style={styles.subLabel}>{textSub1}</Text>
-                        <Text style={styles.subLabel}>{textValue1 + " " + textUnit}</Text>
+                        <Text style={styles.subLabel}>{textValue1 + " " + textUnit1}</Text>
                     </View>
                     <View style={styles.headerRow}>
                         <Text style={styles.subLabel}>{textSub2}</Text>
-                        <Text style={styles.subLabel}>{textValue2 + " " + textUnit}</Text>
+                        <Text style={styles.subLabel}>{textValue2 + " " + textUnit2}</Text>
                     </View>
                 </View>
             </View>

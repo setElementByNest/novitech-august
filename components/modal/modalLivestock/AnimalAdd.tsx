@@ -8,9 +8,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 interface Props {
     closeModal: () => void;
+    onAddAnimal: (addId: string, addName: string, addSex: string, addDate: Date, addMass: string) => void;
 }
 
-export const AnimalAdd = ({ closeModal }: Props) => {
+export const AnimalAdd = ({ closeModal, onAddAnimal }: Props) => {
 
     const [listOpen1, setListOpen1] = useState<boolean>(false);
     const [listOpen2, setListOpen2] = useState<boolean>(false);
@@ -172,7 +173,16 @@ export const AnimalAdd = ({ closeModal }: Props) => {
                 </View>
             </View>
 
-            <Button text="บันทึก" theme="green" fn={closeModal} />
+            <Button text="บันทึก" theme="green" fn={() => {
+                onAddAnimal(
+                    addData.name,
+                    addData.name,
+                    addData.gender,
+                    new Date(addData.birthday),
+                    addData.weight
+                )
+                closeModal();
+            }} />
             {show && <DateTimePicker
                 value={addData.birthday ? new Date(addData.birthday) : new Date()}
                 mode="date"

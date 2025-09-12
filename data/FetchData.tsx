@@ -1,10 +1,14 @@
 import dataAnimal from '@/data/json/exampleAnimal.json';
+import dataCategoryAnimals from '@/data/json/listCategoryAnimals.json';
+import dataSummary from '@/data/json/summary.json';
 import dataTasks from '@/data/json/task.json';
 import axios from 'axios';
 
-const fetchGet = async () => {
+const url_fb = "https://farmboost-c9a0hnf6f7gzcdcy.southeastasia-01.azurewebsites.net/api/"
+
+export const fetchGet = async (endpoint: string) => {
     try {
-        const response = await axios.get('https://bfarm-api.noip.in.th/mac"_id"');
+        const response = await axios.get(`${url_fb}${endpoint}`);
         return response.data;
     } catch (error) {
         return error;
@@ -149,74 +153,30 @@ export interface summaryProps {
     textvalue1: number;
     textlist2: string;
     textvalue2: number;
-    textunit: string;
+    textunit1: string;
+    textunit2: string;
     status: "normal" | "critical" | "warning";
     lock: boolean;
     dot?: boolean;
 }
 
-export const demo_summary: summaryProps[] = [
-    {
-        "title": "การเติบโต",
-        "textsummary": "ปกติ",
-        "textlist1": "ปกติ",
-        "textvalue1": 412,
-        "textlist2": "ผิดปกติ",
-        "textvalue2": 0,
-        "textunit": "ตัว",
-        "status": "normal",
-        "dot": true,
-        "lock": true
-    },
-    {
-        "title": "สุขภาพ",
-        "textsummary": "ป่วย 2 ตัว",
-        "textlist1": "ปกติ",
-        "textvalue1": 410,
-        "textlist2": "ผิดปกติ",
-        "textvalue2": 2,
-        "textunit": "ตัว",
-        "status": "critical",
-        "dot": true,
-        "lock": true
-    },
-    {
-        "title": "ประสิทธิภาพฟาร์ม",
-        "textsummary": "ดี",
-        "textlist1": "ค่าประสิทธิภาพ",
-        "textvalue1": 74,
-        "textlist2": "เกณฑ์มาตรฐาน",
-        "textvalue2": 65,
-        "textunit": "%",
-        "status": "normal",
-        "lock": true
-    },
-    {
-        "title": "อาหาร (ฟาง)",
-        "textsummary": "เหลือ 3 วัน",
-        "textlist1": "ต้องการต่อวัน",
-        "textvalue1": 523,
-        "textlist2": "อาหารในคลัง",
-        "textvalue2": 2632,
-        "textunit": "ก้อน",
-        "status": "warning",
-        "dot": true,
-        "lock": true
-    },
-    {
-        "title": "ปริมาณน้ำนม",
-        "textsummary": "ต่ำกว่าเกณฑ์",
-        "textlist1": "ปริมาณเฉลี่ย",
-        "textvalue1": 2.51,
-        "textlist2": "เกณฑ์มาตรฐาน",
-        "textvalue2": 4.00,
-        "textunit": "ลิตร",
-        "status": "warning",
-        "dot": true,
-        "lock": true
-    }
-]
+export const demo_summary: summaryProps[] = (dataSummary as any[]).map(item => ({
+    ...item,
+    status: (["normal", "critical", "warning"].includes(item.status) ? item.status : "normal") as "normal" | "critical" | "warning"
+}));
+
+export const fetchSummary = async (): Promise<summaryProps[]> => {
+    const data = await fetchGet('farms/0001/overview_cards/');
+    return data;
+};
 
 export const demo_animal_detail = dataAnimal;
+
+interface CategoryAnimal {
+    topic: string;
+    value: number;
+}
+
+export const demo_category_animals: CategoryAnimal[] = dataCategoryAnimals;
 
 export default fetchGet

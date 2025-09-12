@@ -1,0 +1,65 @@
+[
+    {
+        "id": "M241129",
+        "name": "บื้อ",
+        "code": "M241129",
+        "gender": "ผู้",
+        "age": 5,
+        "weight": 612,
+        "status": "ปกติ"
+    },
+    {
+        "id": "BF005",
+        "name": "Bella",
+        "code": "BF005",
+        "gender": "เมีย",
+        "age": 6,
+        "weight": 672,
+        "status": "ติดสัด"
+    },
+    {
+        "id": "M14596",
+        "name": "ตะโกร๋",
+        "code": "M14596",
+        "gender": "เมีย",
+        "age": 10,
+        "weight": 318.5,
+        "status": "ผิดปกติ"
+    },
+    {
+        "id": "BF004",
+        "name": "Max",
+        "code": "BF004",
+        "gender": "ผู้",
+        "age": 4,
+        "weight": 524,
+        "status": "ปกติ"
+    },
+    {
+        "id": "BF003",
+        "name": "Luna",
+        "code": "BF003",
+        "gender": "เมีย",
+        "age": 5,
+        "weight": 624,
+        "status": "ส่งออก"
+    },
+    {
+        "id": "BF006",
+        "name": "Max",
+        "code": "BF006",
+        "gender": "ผู้",
+        "age": 4,
+        "weight": 598,
+        "status": "ตาย"
+    },
+    {
+        "id": "BF009",
+        "name": "Min",
+        "code": "BF009",
+        "gender": "ผู้",
+        "age": 4,
+        "weight": 534,
+        "status": "ตาย"
+    }
+]

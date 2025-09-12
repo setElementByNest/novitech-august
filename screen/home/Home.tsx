@@ -9,13 +9,15 @@ import { SelectGrow } from '@/components/modal/modalHome/SelectGrow';
 import { SelectHealth } from '@/components/modal/modalHome/SelectHealth';
 import { SelectMilk } from '@/components/modal/modalHome/SelectMilk';
 import ShowModal from '@/components/modal/ShowModal';
+import { ReloadPage } from '@/components/reload/ReloadPage';
+import { IsLoginContext } from '@/contexts/IsLoginContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import FarmdetailCard from '../../components/farmdetailCard/FarmdetailCard';
 import SummaryCard from '../../components/summaryCard/SummaryCard';
 import TextStyles from '../../constants/Texts';
-import { demo_animal, demo_crop, demo_summary, demo_task } from '../../data/FetchData';
+import { demo_animal, demo_category_animals, demo_crop, demo_summary, demo_task, fetchGet } from '../../data/FetchData';
 import styles from './Styles';
 
 type TaskProps = {
@@ -36,10 +38,72 @@ const Home = () => {
     const [showModalPage, setShowModalPage] = useState<number>(0);
     const [addFood, setAddFood] = useState(0);
     const [reportClick, setReportClick] = useState<string>("");
+    const [onRefresh, setOnRefresh] = useState(false);
+    type DataSummaryItem = {
+        title: string;
+        textsummary: string;
+        textlist1: string;
+        textvalue1: number | string;
+        textunit1: string;
+        textlist2: string;
+        textvalue2: number | string;
+        textunit2: string;
+        status: "normal" | "critical" | "warning";
+    };
 
+    const [dataSummary, setDataSummary] = useState<DataSummaryItem[]>([]);
+    const { setIsLoggedIn } = useContext(IsLoginContext);
+    const backtologin = () => {
+        setIsLoggedIn(false);
+    }
 
+    type CategoryAnimal = {
+        topic: string;
+        value: number;
+    }
+
+    const [dataCategoryAnimals, setDataCategoryAnimals] = useState<CategoryAnimal[]>(demo_category_animals);
+
+    const refreshing = () => {
+        setOnRefresh(true);
+        setDataSummary([]);
+        setDataCategoryAnimals([]);
+
+        const fetchDataSummary = async () => {
+            try {
+                const data = await fetchGet("farms/0001/overview_cards/");
+                setDataSummary(data);
+                console.log("dataSummary", data);
+            } catch (error) {
+                console.error("Failed to fetch data summary:", error);
+            }
+            setOnRefresh(false);
+        };
+        const fetchDataCategory = async () => {
+            try {
+                const data = await fetchGet("animals/age_summary/");
+                const transformedData = Object.entries(data).map(([topic, value]) => ({
+                    topic,
+                    value: Number(value),
+                }));
+                setDataCategoryAnimals(transformedData);
+                console.log("dataCategoryAnimals", transformedData);
+                console.log("dataCategoryAnimals in need", demo_category_animals);
+            } catch (error) {
+                console.error("Failed to fetch data category animals:", error);
+            }
+            setOnRefresh(false);
+        };
+
+        setTimeout(() => {
+            fetchDataSummary();
+            fetchDataCategory();
+        }, 600);
+    }
 
     useEffect(() => {
+        refreshing();
+
         const demoData = demo_task;
         const toDay = new Date();
         const showDemo = () => {
@@ -95,9 +159,9 @@ const Home = () => {
             return updatedTasks;
         });
     };
-    
+
     const toggleTask_confirm = () => {
-       setTasks(tasks_change);
+        setTasks(tasks_change);
     }
 
     const toggleTask_cancel = () => {
@@ -203,9 +267,9 @@ const Home = () => {
                             style={styles.home_styles.headerBackground}
                             resizeMode="cover"
                         />
-                        <View style={styles.home_styles.headerText}>
+                        <Pressable style={styles.home_styles.headerText} onPress={backtologin}>
                             <Text style={TextStyles.text_head2}>Novitech Farm</Text>
-                        </View>
+                        </Pressable>
                     </View>
                     <View>
                         <View style={styles.home_styles.calendar_head}>
@@ -220,7 +284,7 @@ const Home = () => {
                                         styles.home_styles.listItem,
                                         selectDay === day ? styles.home_styles.listItem : styles.home_styles.listItem_disabled,
                                     ]}
-                                    onPress={() => {check_change ? onPressSelectDay(day) : null}}
+                                    onPress={() => { check_change ? onPressSelectDay(day) : null }}
                                 >
                                     <Text style={selectDay === day ? styles.home_styles.listItemText : styles.home_styles.listItemText_disabled}>{day}</Text>
 
@@ -234,27 +298,28 @@ const Home = () => {
                             </View>
                             {tasks_change.length > 0 ? (
                                 tasks_change.map((task, i) => {
-                                    return(
-                                    <Pressable
-                                        key={i}
-                                        style={[
-                                            styles.cardtodo_styles.taskRow,
-                                            (task.status == 'completed' && check_change) && styles.cardtodo_styles.taskRow_completed,
-                                            (tasks[i]?.status !== tasks_change[i].status) && styles.cardtodo_styles.taskRow_change
-                                        ]}
-                                        onPress={() => toggleTask(task._id)}
-                                    >
-                                        <Text style={[
-                                            styles.cardtodo_styles.taskText,
-                                            (task.status == 'completed') && styles.cardtodo_styles.completed
-                                        ]}>
-                                            {task.name}
-                                        </Text>
-                                        <Text style={styles.cardtodo_styles.taskText_completed}>
-                                            {task.status == 'completed' ? 'เสร็จสิ้น' : ''}
-                                        </Text>
-                                    </Pressable>
-                                )})
+                                    return (
+                                        <Pressable
+                                            key={i}
+                                            style={[
+                                                styles.cardtodo_styles.taskRow,
+                                                (task.status == 'completed' && check_change) && styles.cardtodo_styles.taskRow_completed,
+                                                (tasks[i]?.status !== tasks_change[i].status) && styles.cardtodo_styles.taskRow_change
+                                            ]}
+                                            onPress={() => toggleTask(task._id)}
+                                        >
+                                            <Text style={[
+                                                styles.cardtodo_styles.taskText,
+                                                (task.status == 'completed') && styles.cardtodo_styles.completed
+                                            ]}>
+                                                {task.name}
+                                            </Text>
+                                            <Text style={styles.cardtodo_styles.taskText_completed}>
+                                                {task.status == 'completed' ? 'เสร็จสิ้น' : ''}
+                                            </Text>
+                                        </Pressable>
+                                    )
+                                })
                             ) : (
                                 <View>
                                     <Text style={[styles.cardtodo_styles.taskText, { opacity: 0.5, textAlign: 'center', fontSize: 24 }]}>ว่าง</Text>
@@ -271,32 +336,37 @@ const Home = () => {
                     <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>รายงานผลแบบย่อ</Text>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, flexWrap: 'wrap', marginVertical: 8 }}>
                         {
-                            demo_summary.map((item, index) => (
-                                <SummaryCard
-                                    key={index}
-                                    title={item.title}
-                                    textHead={item.textsummary}
-                                    textSub1={item.textlist1}
-                                    textValue1={(item.textvalue1).toString()}
-                                    textSub2={item.textlist2}
-                                    textValue2={(item.textvalue2).toString()}
-                                    textUnit={item.textunit}
-                                    status={item.status}
-                                    dot={item.dot ?? false}
-                                    lock={lock}
-                                    onClick={() => openModal(item.title)}
-                                />
-                            ))
+                            dataSummary.length === 0 ? (
+                                <ReloadPage />
+                            ) : (
+                                dataSummary.map((item, index) => (
+                                    <SummaryCard
+                                        key={index}
+                                        title={item.title}
+                                        textHead={item.textsummary}
+                                        textSub1={item.textlist1}
+                                        textValue1={(item.textvalue1).toString()}
+                                        textUnit1={item.textunit1}
+                                        textSub2={item.textlist2}
+                                        textValue2={(item.textvalue2).toString()}
+                                        textUnit2={item.textunit2}
+                                        status={item.status}
+                                        dot={true}
+                                        lock={lock}
+                                        onClick={() => openModal(item.title)}
+                                    />
+                                )))
                         }
                     </View>
                     <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>ข้อมูลฟาร์ม</Text>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, flexWrap: 'wrap', marginVertical: 8 }}>
-                        <FarmdetailCard title={'กลุ่มสัตว์'} datalist={[
-                            { topic: '< 1 ปี', value: 96 },
-                            { topic: '1-2 ปี', value: 154 },
-                            { topic: '2-3 ปี', value: 62 },
-                            { topic: '> 3 ปี', value: 118 }
-                        ]} textUnit={'ตัว'} dot={false} />
+                        {
+                            dataCategoryAnimals.length === 0 ? (
+                                <ReloadPage />
+                            ) : (
+                                <FarmdetailCard title={'กลุ่มสัตว์'} datalist={dataCategoryAnimals} textUnit={'ตัว'} dot={true} />
+                            )
+                        }
                     </View>
                 </View>
                 <ShowModal
@@ -305,6 +375,9 @@ const Home = () => {
                     content={viewModal()}
                 />
             </ScrollView>
+            <Pressable onPress={refreshing} style={[styles.home_styles.plusIcon, { backgroundColor: onRefresh ? '#888' : '#4CB591' }]}>
+                <MaterialCommunityIcons name="refresh" size={32} color={'white'} />
+            </Pressable>
         </View>
     );
 };

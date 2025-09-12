@@ -1,4 +1,3 @@
-import Button from '@/components/button/Button';
 import { Colors } from "@/constants/Colors";
 import TextStyles from "@/constants/Texts";
 import { Dispatch, SetStateAction } from "react";
@@ -25,6 +24,8 @@ interface Props {
     animallist_setValue: Dispatch<SetStateAction<string | null>>;
 }
 
+import { ScrollView } from "react-native";
+
 export const GrowSave = ({
     closeModal,
     setWeight,
@@ -44,9 +45,7 @@ export const GrowSave = ({
     animallist_setOpen,
     animallist_setValue }: Props) => {
     return (
-        <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={TextStyles.text_head2}>บันทึกการเติบโต</Text>
-            <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>เลือกคอก</Text>
+        <ScrollView contentContainerStyle={{ width: '100%', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
             <DropDownPicker
                 open={croplist_open}
                 value={croplist_value}
@@ -55,6 +54,7 @@ export const GrowSave = ({
                 setValue={croplist_setValue}
                 multiple={false}
                 style={{ borderColor: '#ccc', width: '100%', marginVertical: 6, marginBottom: 12, zIndex: 0 }}
+                listMode="SCROLLVIEW"
             />
             <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>เลือกสัตว์</Text>
             <DropDownPicker
@@ -65,6 +65,7 @@ export const GrowSave = ({
                 setValue={animallist_setValue}
                 multiple={false}
                 style={{ borderColor: '#ccc', width: '100%', marginVertical: 6, marginBottom: 12, zIndex: 0 }}
+                listMode="SCROLLVIEW"
             />
             <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>น้ำหนัก</Text>
             <View style={{ display: 'flex', position: 'relative', width: '100%', marginVertical: 6 }}>
@@ -97,10 +98,8 @@ export const GrowSave = ({
                     onChangeText={e => setLong(Number(e))}
                     keyboardType="numeric"
                 />
-                <Text style={[TextStyles.text_head4, { color: Colors.light.main, position: 'absolute', right: 12, top: 6 }]}>เซนติเมตร</Text>
             </View>
-            <Button text="บันทึก" theme="green" fn={closeModal} />
-        </View>
+        </ScrollView>
     )
 }
 

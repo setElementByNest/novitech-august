@@ -1,0 +1,42 @@
+[
+    {
+        "id": "crop01",
+        "name": "คอกเด็กเล็ก",
+        "status": "normal",
+        "countall": 42,
+        "countabnormal": 0,
+        "food": 512
+    },
+    {
+        "id": "crop02",
+        "name": "คอกวัยรุ่นชาย",
+        "status": "normal",
+        "countall": 22,
+        "countabnormal": 0,
+        "food": 412
+    },
+    {
+        "id": "crop03",
+        "name": "คอกวัยรุ่นสาว",
+        "status": "critical",
+        "countall": 32,
+        "countabnormal": 2,
+        "food": 951
+    },
+    {
+        "id": "crop04",
+        "name": "คอกให้นม",
+        "status": "normal",
+        "countall": 25,
+        "countabnormal": 0,
+        "food": 732
+    },
+    {
+        "id": "crop05",
+        "name": "คอกแก่",
+        "status": "normal",
+        "countall": 11,
+        "countabnormal": 0,
+        "food": 241
+    }
+]

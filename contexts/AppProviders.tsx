@@ -1,18 +1,8 @@
 import React, { ReactNode } from 'react';
-import { ThemeProvider } from './ThemeContext';
-import { SizeProvider } from './SizeContext';
-import { LangProvider } from './LangContext'
-import { ScreenProvider } from './ScreenContext';
-import { AnimalProvider } from './ListAnimalContext';
-import { FocusAnimalProvider } from './FocusAnimalContext';
+import { IsLoginProvider } from './IsLoginContext';
 
 const providers = [
-    ThemeProvider,
-    SizeProvider,
-    LangProvider,
-    ScreenProvider,
-    AnimalProvider,
-    FocusAnimalProvider,
+    IsLoginProvider
 ];
 
 type Props = {

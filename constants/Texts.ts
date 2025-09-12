@@ -2,6 +2,11 @@ import { StyleSheet } from 'react-native';
 // import { Color } from '../../components/Colors';
 import { Colors } from './Colors';
 const TextStyles = StyleSheet.create({
+    text_head0: {
+        fontSize: 32,
+        color: Colors.light.dark,
+        fontFamily: 'Kanit500',
+    },
     text_head1: {
         fontSize: 26,
         color: Colors.light.dark,

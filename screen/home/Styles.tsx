@@ -218,6 +218,14 @@ const home_styles = StyleSheet.create({
         paddingBottom: 2,
     },
     input: styles.input,
+    plusIcon: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        padding: 10,
+        borderRadius: 50,
+        backgroundColor: Colors.light.main,
+    },
 });
 
 const cardtodo_styles = StyleSheet.create({

@@ -1,0 +1,62 @@
+[
+    {
+        "title": "การเติบโต",
+        "textsummary": "ปกติohhhhhh",
+        "textlist1": "ปกติ",
+        "textvalue1": 412,
+        "textlist2": "ผิดปกติ",
+        "textvalue2": 0,
+        "textunit1": "ตัว",
+        "textunit2": "ตัว",
+        "status": "normal",
+        "lock": true
+    },
+    {
+        "title": "สุขภาพ",
+        "textsummary": "ป่วย 2 ตัว",
+        "textlist1": "ปกติ",
+        "textvalue1": 410,
+        "textlist2": "ผิดปกติ",
+        "textvalue2": 2,
+        "textunit1": "ตัว",
+        "textunit2": "ตัว",
+        "status": "critical",
+        "lock": true
+    },
+    {
+        "title": "ประสิทธิภาพฟาร์ม",
+        "textsummary": "ดี",
+        "textlist1": "ค่าประสิทธิภาพ",
+        "textvalue1": 74,
+        "textlist2": "เกณฑ์มาตรฐาน",
+        "textvalue2": 65,
+        "textunit1": "%",
+        "textunit2": "%",
+        "status": "normal",
+        "lock": true
+    },
+    {
+        "title": "อาหาร (ฟาง)",
+        "textsummary": "เหลือ 3 วัน",
+        "textlist1": "ต้องการต่อวัน",
+        "textvalue1": 523,
+        "textlist2": "อาหารในคลัง",
+        "textvalue2": 2632,
+        "textunit1": "ก้อน",
+        "textunit2": "ก้อน",
+        "status": "warning",
+        "lock": true
+    },
+    {
+        "title": "ปริมาณน้ำนม",
+        "textsummary": "ต่ำกว่าเกณฑ์",
+        "textlist1": "ปริมาณเฉลี่ย",
+        "textvalue1": 2.51,
+        "textlist2": "เกณฑ์มาตรฐาน",
+        "textvalue2": 4.00,
+        "textunit1": "ลิตร",
+        "textunit2": "ลิตร",
+        "status": "warning",
+        "lock": true
+    }
+]

@@ -38,6 +38,7 @@ const Livestock = () => {
 
     const [filter, setFilter] = useState<filterListProps[]>([]);
     const [dataPet, setDataPet] = useState<AnimalProps[]>([]);
+    const [dataPetFilter, setDataPetFilter] = useState<AnimalProps[]>([]);
     const [nowFilter, setNowFilter] = useState<number>(1);
     const [tasks, setTasks] = useState<TaskProps[]>([]);
     const [gridView, setGridView] = useState<boolean>(true);
@@ -90,6 +91,7 @@ const Livestock = () => {
 
             setFilter(filterList);
             setDataPet(sortedAnimals);
+            setDataPetFilter(sortedAnimals);
             setAnimalAll(sortedAnimals);
             console.log("Loaded animals:", sortedAnimals);
 
@@ -165,24 +167,68 @@ const Livestock = () => {
             console.error("Error saving animal data:", error);
         }
     };
+
+    const onAddAnimal = (addId: string, addName: string, addSex: string, addDate: Date, addMass: string) => {
+        const dataToSave = JSON.stringify({
+            id: addId,
+            name: addName,
+            code: addId,
+            gender: addSex === 'm' ? 'ผู้' : 'เมีย',
+            age: addDate ? Math.floor((new Date().getTime() - addDate.getTime()) / (1000 * 60 * 60 * 24 * 365)) : 0,
+            weight: addMass ? Number(addMass) : 0,
+            status: 'ปกติ'
+        });
+        const dirUri = FileSystem.documentDirectory + 'data/';
+        const fileUri = dirUri + `${addId}.txt`; // Ensure `addId` is defined and consistent
+        (async () => {
+            try {
+                // Create directory if needed
+                const dirInfo = await FileSystem.getInfoAsync(dirUri);
+                if (!dirInfo.exists) {
+                    await FileSystem.makeDirectoryAsync(dirUri, { intermediates: true });
+                }
+
+                // Write the file
+                await FileSystem.writeAsStringAsync(fileUri, dataToSave);
+                console.log("File written:", fileUri);
+
+                // Confirm file exists
+                const fileInfo = await FileSystem.getInfoAsync(fileUri);
+                console.log("File exists after write:", fileInfo.exists);
+                // Read all file names in the directory
+                const dirFiles = await FileSystem.readDirectoryAsync(dirUri);
+                console.log("Files in directory:", dirFiles);
+                if (fileInfo.exists) {
+                    const content = await FileSystem.readAsStringAsync(fileUri);
+                    console.log("Read content:", content);
+                } else {
+                    console.warn("File not found when trying to read.");
+                }
+
+            } catch (error) {
+                console.error("Error during file write/read:", error);
+            }
+        })();
+        dataExpo_showlist();
+    }
     useEffect(() => {
         loadAnimalData();
     }, []);
-    useEffect(() => {
-        setFilter(filterList);
-        const sortedAnimals_name = demo_animal.sort((a, b) => a.code.localeCompare(b.code));
-        const sortedAnimals = sortedAnimals_name.sort((a, b) => {
-            const indexA = statusOrder.findIndex(status => a.status.includes(status));
-            const indexB = statusOrder.findIndex(status => b.status.includes(status));
-            return indexA - indexB;
-        });
-        setDataPet(sortedAnimals);
-        console.log(demo_animal)
-    }, [demo_animal]);
+    // useEffect(() => {
+    //     setFilter(filterList);
+    //     const sortedAnimals_name = demo_animal.sort((a, b) => a.code.localeCompare(b.code));
+    //     const sortedAnimals = sortedAnimals_name.sort((a, b) => {
+    //         const indexA = statusOrder.findIndex(status => a.status.includes(status));
+    //         const indexB = statusOrder.findIndex(status => b.status.includes(status));
+    //         return indexA - indexB;
+    //     });
+    //     setDataPet(sortedAnimals);
+    //     console.log(demo_animal)
+    // }, [demo_animal]);
 
     useEffect(() => {
         const selectedFilter = filter.find(item => Number(item.id) === nowFilter);
-        const sortedAnimals_name = demo_animal.sort((a, b) => a.code.localeCompare(b.code));
+        const sortedAnimals_name = dataPet.sort((a, b) => a.code.localeCompare(b.code));
         const sortedAnimals = sortedAnimals_name.sort((a, b) => {
             const indexA = statusOrder.findIndex(status => a.status.includes(status));
             const indexB = statusOrder.findIndex(status => b.status.includes(status));
@@ -191,12 +237,12 @@ const Livestock = () => {
         const filteredPets = nowFilter !== 1 && selectedFilter
             ? sortedAnimals.filter(animal => animal.status === selectedFilter.title)
             : sortedAnimals;
-        setDataPet(filteredPets);
+        setDataPetFilter(filteredPets);
         console.log(filter)
         console.log(sortedAnimals_name)
     }, [nowFilter]);
 
-    const modalContent = [ShowDetail({ closeModal, demo_animal_detail }), AnimalAdd({ closeModal })];
+    const modalContent = [ShowDetail({ closeModal, demo_animal_detail }), AnimalAdd({ closeModal, onAddAnimal })];
 
     return (
         <View style={{ width: '100%', height: '100%', position: 'relative', justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -216,7 +262,7 @@ const Livestock = () => {
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, flexWrap: 'wrap' }}>
                         {
-                            dataPet.map((animal, i) => (
+                            dataPetFilter.map((animal, i) => (
                                 <AnimalCardList animals={animal} gridView={gridView} key={i} fn={() => { openAnimalModal(animal.code); }} />
                             ))
                         }
@@ -226,7 +272,7 @@ const Livestock = () => {
             <Pressable onPress={openAddAnimalModal} style={styles.livestock_styles.plusIcon}>
                 <MaterialCommunityIcons name="plus" size={32} color={'white'} />
             </Pressable>
-            {/* <Pressable onPress={dataExpo_showlist} style={[styles.livestock_styles.plusIcon, { right: 80, backgroundColor: '#444', borderRadius: 0 }]}>
+            <Pressable onPress={dataExpo_showlist} style={[styles.livestock_styles.plusIcon, { right: 80, backgroundColor: '#444', borderRadius: 0 }]}>
                 <MaterialCommunityIcons name="view-list" size={32} color={'white'} />
             </Pressable>
             <Pressable onPress={dataExpo_deletelist} style={[styles.livestock_styles.plusIcon, { right: 140, backgroundColor: '#444', borderRadius: 0 }]}>
@@ -234,7 +280,7 @@ const Livestock = () => {
             </Pressable>
             <Pressable onPress={dataExpo_demosavelist} style={[styles.livestock_styles.plusIcon, { right: 200, backgroundColor: '#444', borderRadius: 0 }]}>
                 <MaterialCommunityIcons name="auto-upload" size={32} color={'white'} />
-            </Pressable> */}
+            </Pressable>
             {/* <AddModal isVisible={showAdd} onClose={closeModal} /> */}
             <ShowModal
                 isVisible={showModal}

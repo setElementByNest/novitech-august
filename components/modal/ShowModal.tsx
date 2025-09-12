@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 
 interface ShowModalProps {
@@ -25,14 +25,15 @@ const ShowModal: React.FC<ShowModalProps> = ({ isVisible, onClose, content }) =>
         >
             <View style={[styles.container, { maxHeight: '90%' }]}>
                 <View style={{ width: '25%', height: 4, backgroundColor: '#444', alignSelf: 'center', borderRadius: 2, marginBottom: 12 }} />
-                <View
+                <ScrollView
                     onLayout={(event) => {
                         const { height } = event.nativeEvent.layout;
                         setContainerHeight(height);
                     }}
-                    style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, padding: 16, backgroundColor: 'white', borderRadius: 8 }}>
+                    style={{ backgroundColor: 'white', borderRadius: 8 }}
+                    contentContainerStyle={{ display: 'flex', justifyContent: 'flex-end', gap: 8, padding: 16, paddingBottom: 64 }}>
                     {content}
-                </View>
+                </ScrollView>
             </View>
         </Modal>
     );
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         paddingVertical: 18,
         paddingHorizontal: 12,
-        paddingBottom: 64,
+        paddingBottom: 4,
     },
 })
 

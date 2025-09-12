@@ -1,7 +1,7 @@
 import Button from '@/components/button/Button';
 import TextStyles from "@/constants/Texts";
 import { Dispatch, SetStateAction } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 interface Props {
@@ -35,7 +35,7 @@ export const HealthSave = ({
     animallist_setOpen,
     animallist_setValue }: Props) => {
     return (
-        <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <ScrollView contentContainerStyle={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
             <Text style={TextStyles.text_head2}>บันทึกสุขภาพ</Text>
             <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>เลือกคอก</Text>
             <DropDownPicker
@@ -45,6 +45,7 @@ export const HealthSave = ({
                 setOpen={croplist_setOpen}
                 setValue={croplist_setValue}
                 multiple={false}
+                listMode="SCROLLVIEW"
                 style={{ borderColor: '#ccc', width: '100%', marginVertical: 6, marginBottom: 12, zIndex: 0 }}
             />
             <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>เลือกสัตว์</Text>
@@ -55,6 +56,7 @@ export const HealthSave = ({
                 setOpen={animallist_setOpen}
                 setValue={animallist_setValue}
                 multiple={false}
+                listMode="SCROLLVIEW"
                 style={{ borderColor: '#ccc', width: '100%', marginVertical: 6, marginBottom: 12, zIndex: 0 }}
             />
             <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>โรค / อาการ</Text>
@@ -71,7 +73,7 @@ export const HealthSave = ({
                 />
             </View>
             <Button text="บันทึก" theme="green" fn={closeModal} />
-        </View>
+        </ScrollView>
     )
 }
 

@@ -1,0 +1,7 @@
+## Command for build app
+
+# .apk
+eas build -p android --profile preview
+
+# .aab
+eas build -p android --profile production
