@@ -24,6 +24,7 @@ interface Props {
     animallist_setValue: Dispatch<SetStateAction<string | null>>;
 }
 
+import Button from "@/components/button/Button";
 import { ScrollView } from "react-native";
 
 export const GrowSave = ({
@@ -46,6 +47,8 @@ export const GrowSave = ({
     animallist_setValue }: Props) => {
     return (
         <ScrollView contentContainerStyle={{ width: '100%', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
+            <Text style={TextStyles.text_head2}>บันทึกสุขภาพ</Text>
+            <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>เลือกคอก</Text>
             <DropDownPicker
                 open={croplist_open}
                 value={croplist_value}
@@ -99,6 +102,7 @@ export const GrowSave = ({
                     keyboardType="numeric"
                 />
             </View>
+            <Button text="บันทึก" theme="green" fn={closeModal} />
         </ScrollView>
     )
 }

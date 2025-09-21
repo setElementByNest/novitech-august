@@ -43,7 +43,8 @@ export const ShowDetail = ({ closeModal, demo_animal_detail }: Props) => {
                         textValue1={demo_animal_detail.health.sick_count + " ครั้ง"}
                         textSub2={"ป่วยล่าสุด"}
                         textValue2={demo_animal_detail.health.sick_last}
-                        textUnit={""}
+                        textUnit1={""}
+                        textUnit2={""}
                         status={demo_animal_detail.health.status}
                         dot={false}
                         lock={false}
@@ -56,7 +57,8 @@ export const ShowDetail = ({ closeModal, demo_animal_detail }: Props) => {
                         textValue1={demo_animal_detail.milk.milked_quantity + " ลิตร"}
                         textSub2={"วันที่ให้นม"}
                         textValue2={demo_animal_detail.milk.milked_last}
-                        textUnit={""}
+                        textUnit1={""}
+                        textUnit2={""}
                         status={demo_animal_detail.milk.status}
                         dot={false}
                         lock={false}
@@ -69,7 +71,8 @@ export const ShowDetail = ({ closeModal, demo_animal_detail }: Props) => {
                         textValue1={demo_animal_detail.grow.weight + " Kg."}
                         textSub2={"ส่วนสูง"}
                         textValue2={demo_animal_detail.grow.height + " cm."}
-                        textUnit={""}
+                        textUnit1={""}
+                        textUnit2={""}
                         status={demo_animal_detail.grow.status}
                         dot={false}
                         lock={false}
@@ -82,7 +85,8 @@ export const ShowDetail = ({ closeModal, demo_animal_detail }: Props) => {
                         textValue1={demo_animal_detail.heat.heat_next}
                         textSub2={"ติดสัดล่าสุด"}
                         textValue2={"12/5/2565"}
-                        textUnit={""}
+                        textUnit1={""}
+                        textUnit2={""}
                         status={"normal"}
                         dot={false}
                         lock={false}

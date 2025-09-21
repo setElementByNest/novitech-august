@@ -1,15 +1,21 @@
-import Button from '@/components/button/Button';
 import { FoodAdd } from '@/components/modal/modalHome/FoodAdd';
 import { FoodPet } from '@/components/modal/modalHome/FoodPet';
 import { GrowSave } from '@/components/modal/modalHome/GrowSave';
 import { HealthSave } from '@/components/modal/modalHome/HealthSave';
+import { HealthUpdate } from '@/components/modal/modalHome/HealthUpdate';
 import { MilkSave } from '@/components/modal/modalHome/MilkSave';
 import { SelectFood } from '@/components/modal/modalHome/SelectFood';
 import { SelectGrow } from '@/components/modal/modalHome/SelectGrow';
 import { SelectHealth } from '@/components/modal/modalHome/SelectHealth';
 import { SelectMilk } from '@/components/modal/modalHome/SelectMilk';
+import { SelectVaccine } from '@/components/modal/modalHome/SelectVaccine';
+import { VaccineAdd } from '@/components/modal/modalHome/VaccineAdd';
+import { VaccineEdit } from '@/components/modal/modalHome/VaccineEdit';
+import { VaccineList } from '@/components/modal/modalHome/VaccineList';
+import { VaccineTask } from '@/components/modal/modalHome/VaccineTask';
 import ShowModal from '@/components/modal/ShowModal';
 import { ReloadPage } from '@/components/reload/ReloadPage';
+import { TasksTodo } from '@/components/tasks/TasksTodo';
 import { IsLoginContext } from '@/contexts/IsLoginContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useContext, useEffect, useState } from 'react';
@@ -135,6 +141,7 @@ const Home = () => {
         setLock(false)
     }, []);
 
+    
     const onPressSelectDay = (day: number) => {
         setSelectDay(day);
         const filerListTask_day = allTasks.filter((task) => {
@@ -205,6 +212,8 @@ const Home = () => {
 
     const [nowHealth, setHealth] = useState<string>("");
 
+    const [moduleName, setModuleName] = useState<string>("");
+
     const closeModal = () => {
         setShowModal(false);
         setAddFood(0);
@@ -218,6 +227,7 @@ const Home = () => {
         setShowModal(true);
         setReportClick(report)
     }
+    
 
     const viewFoodModal = [
         SelectFood({ changePage }),
@@ -237,9 +247,20 @@ const Home = () => {
 
     const viewHealthModal = [
         SelectHealth({ changePage }),
-        HealthSave({ closeModal, setHealth, nowHealth, croplist_open, croplist_value, data_listCrop, croplist_setOpen, croplist_setValue, animallist_open, animallist_value, data_listAnimals, animallist_setOpen, animallist_setValue })
+        HealthSave({ closeModal, setHealth, nowHealth, croplist_open, croplist_value, data_listCrop, croplist_setOpen, croplist_setValue, animallist_open, animallist_value, data_listAnimals, animallist_setOpen, animallist_setValue }),
+        HealthUpdate({ closeModal, setHealth, nowHealth, croplist_open, croplist_value, data_listCrop, croplist_setOpen, croplist_setValue, animallist_open, animallist_value, data_listAnimals, animallist_setOpen, animallist_setValue })
     ];
 
+    const viewVaccineModal = [
+        SelectVaccine({ changePage }),
+        VaccineTask(),
+        VaccineList({ changePage, setModuleName }),
+        VaccineAdd({ changePage }),
+        VaccineEdit({ changePage, moduleName, setModuleName }),
+        
+    ];
+
+    
     const viewModal = () => {
         switch (reportClick) {
             case "อาหาร (ฟาง)":
@@ -250,10 +271,35 @@ const Home = () => {
                 return viewGrowModal[showModalPage];
             case "สุขภาพ":
                 return viewHealthModal[showModalPage];
+            case "วัคซีน":
+                return viewVaccineModal[showModalPage];
             default:
                 return null;
         }
     }
+
+    const menulist = [
+        {
+            title: "วัคซีน",
+            icon: require('../../assets/images/iconVaccine.png'),
+            onClick: () => openModal("วัคซีน"),
+        },
+        {
+            title: "เติบโต",
+            icon: require('../../assets/images/iconGrow.png'),
+            onClick: () => openModal("การเติบโต"),
+        },
+        {
+            title: "อาหาร",
+            icon: require('../../assets/images/iconFood.png'),
+            onClick: () => openModal("อาหาร (ฟาง)"),
+        },
+        {
+            title: "สุขภาพ",
+            icon: require('../../assets/images/iconHealth.png'),
+            onClick: () => openModal("สุขภาพ"),
+        }
+    ]
 
     const check_change = JSON.stringify(tasks) === JSON.stringify(tasks_change)
 
@@ -291,48 +337,39 @@ const Home = () => {
                                 </Pressable>
                             ))}
                         </View>
-                        <View style={styles.cardtodo_styles.card}>
-                            <View style={styles.cardtodo_styles.card_header}>
-                                <Text style={styles.cardtodo_styles.card_header_text}>สิ่งที่ต้องทำ</Text>
-                                <MaterialCommunityIcons style={styles.cardtodo_styles.card_header_icon} name="dots-horizontal" />
-                            </View>
-                            {tasks_change.length > 0 ? (
-                                tasks_change.map((task, i) => {
-                                    return (
-                                        <Pressable
-                                            key={i}
-                                            style={[
-                                                styles.cardtodo_styles.taskRow,
-                                                (task.status == 'completed' && check_change) && styles.cardtodo_styles.taskRow_completed,
-                                                (tasks[i]?.status !== tasks_change[i].status) && styles.cardtodo_styles.taskRow_change
-                                            ]}
-                                            onPress={() => toggleTask(task._id)}
-                                        >
-                                            <Text style={[
-                                                styles.cardtodo_styles.taskText,
-                                                (task.status == 'completed') && styles.cardtodo_styles.completed
-                                            ]}>
-                                                {task.name}
-                                            </Text>
-                                            <Text style={styles.cardtodo_styles.taskText_completed}>
-                                                {task.status == 'completed' ? 'เสร็จสิ้น' : ''}
-                                            </Text>
-                                        </Pressable>
-                                    )
-                                })
-                            ) : (
-                                <View>
-                                    <Text style={[styles.cardtodo_styles.taskText, { opacity: 0.5, textAlign: 'center', fontSize: 24 }]}>ว่าง</Text>
-                                    <Text style={[styles.cardtodo_styles.taskText, { opacity: 0.5, textAlign: 'center' }]}>ไม่มีรายการที่ต้องทำ</Text>
-                                </View>
-                            )}
-                            <View style={{ width: '100%', alignItems: 'center', marginTop: 18, display: !check_change ? 'flex' : 'none' }}>
-                                <Button text="บันทึกการแก้ไข" theme="green" fn={toggleTask_confirm} />
-                                <Button text="ยกเลิก" theme="gray" fn={toggleTask_cancel} />
-                            </View>
+                        <View style={{marginVertical: 12}} >
+                            <TasksTodo textHeader="สิ่งที่ต้องทำ" tasks_change={tasks_change} check_change={check_change} toggleTask={toggleTask} toggleTask_confirm={toggleTask_confirm} toggleTask_cancel={toggleTask_cancel} tasks={tasks} />
                         </View>
                     </View>
 
+                    <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>เมนูลัด</Text>
+                    <View style={{ display: 'flex', flexDirection: 'row', gap: 16, flexWrap: 'wrap', marginVertical: 8, width: '100%', paddingHorizontal: 16, paddingVertical: 12 }}>
+                        {
+                            menulist.map((item, index) => (
+                                <Pressable style={{ display: 'flex', alignItems: 'center', gap: 4, flexDirection: 'column' }} onPress={item.onClick} key={index}>
+                                    <View
+                                        style={{
+                                            width: 64,
+                                            height: 64,
+                                            backgroundColor: '#fff',
+                                            borderRadius: 50,
+                                            overflow: 'hidden',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <Image
+                                            source={item.icon}
+                                            resizeMode="contain"
+                                            style={{ width: 40, height: 40 }}
+                                        />
+                                    </View>
+                                    <Text style={[TextStyles.text_head5]}>{item.title}</Text>
+                                </Pressable>
+                            ))
+                        }
+                    </View>
+                    
                     <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>รายงานผลแบบย่อ</Text>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, flexWrap: 'wrap', marginVertical: 8 }}>
                         {
@@ -373,6 +410,7 @@ const Home = () => {
                     isVisible={showModal && viewModal() !== null}
                     onClose={closeModal}
                     content={viewModal()}
+                    gray={reportClick === "วัคซีน" && showModalPage === 2}
                 />
             </ScrollView>
             <Pressable onPress={refreshing} style={[styles.home_styles.plusIcon, { backgroundColor: onRefresh ? '#888' : '#4CB591' }]}>

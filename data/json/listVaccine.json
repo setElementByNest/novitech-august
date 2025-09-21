@@ -1,0 +1,27 @@
+[
+    {
+        "id": "1",
+        "name": "Pfizer-BioNTech",
+        "manufacturer": "Pfizer, Inc. and BioNTech"
+    },
+    {
+        "id": "2",
+        "name": "Moderna",
+        "manufacturer": "ModernaTX, Inc."
+    },
+    {
+        "id": "3",
+        "name": "Johnson & Johnson's Janssen",
+        "manufacturer": "Janssen Pharmaceuticals Companies of Johnson & Johnson"
+    },
+    {
+        "id": "4",
+        "name": "AstraZeneca",
+        "manufacturer": "AstraZeneca plc"
+    },
+    {
+        "id": "5",
+        "name": "Covaxin",
+        "manufacturer": "Bharat Biotech International Limited"
+    }
+]

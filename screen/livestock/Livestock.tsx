@@ -272,7 +272,7 @@ const Livestock = () => {
             <Pressable onPress={openAddAnimalModal} style={styles.livestock_styles.plusIcon}>
                 <MaterialCommunityIcons name="plus" size={32} color={'white'} />
             </Pressable>
-            <Pressable onPress={dataExpo_showlist} style={[styles.livestock_styles.plusIcon, { right: 80, backgroundColor: '#444', borderRadius: 0 }]}>
+            {/* <Pressable onPress={dataExpo_showlist} style={[styles.livestock_styles.plusIcon, { right: 80, backgroundColor: '#444', borderRadius: 0 }]}>
                 <MaterialCommunityIcons name="view-list" size={32} color={'white'} />
             </Pressable>
             <Pressable onPress={dataExpo_deletelist} style={[styles.livestock_styles.plusIcon, { right: 140, backgroundColor: '#444', borderRadius: 0 }]}>
@@ -280,12 +280,13 @@ const Livestock = () => {
             </Pressable>
             <Pressable onPress={dataExpo_demosavelist} style={[styles.livestock_styles.plusIcon, { right: 200, backgroundColor: '#444', borderRadius: 0 }]}>
                 <MaterialCommunityIcons name="auto-upload" size={32} color={'white'} />
-            </Pressable>
+            </Pressable> */}
             {/* <AddModal isVisible={showAdd} onClose={closeModal} /> */}
             <ShowModal
                 isVisible={showModal}
                 onClose={closeModal}
                 content={modalContent[nowPage]}
+                gray={nowPage === 0 ? true : false}
             />
         </View >
     )

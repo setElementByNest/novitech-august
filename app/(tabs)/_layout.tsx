@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
@@ -9,6 +9,7 @@ import React, { useContext, useEffect } from 'react';
 import { Colors } from '@/constants/Colors';
 import { IsLoginContext } from '@/contexts/IsLoginContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { StatusBar } from 'expo-status-bar';
 import LoginMain from '../login/LoginMain';
 
 export default function TabLayout() {
@@ -20,6 +21,20 @@ export default function TabLayout() {
 
   return (
     <>
+    <StatusBar
+      style="light"
+    />
+    <React.Fragment>
+      <View style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: Platform.OS === 'ios' ? 44 : 24,
+        backgroundColor: Colors.light.main,
+        zIndex: 1,
+      }} />
+    </React.Fragment>
       {isLoggedIn ?
         <Tabs
           screenOptions={{

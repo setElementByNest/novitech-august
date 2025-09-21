@@ -1,7 +1,13 @@
 import dataAnimal from '@/data/json/exampleAnimal.json';
+import dataVaccineList from '@/data/json/infoVaccine.json';
 import dataCategoryAnimals from '@/data/json/listCategoryAnimals.json';
+import dataHealth from '@/data/json/listHealth.json';
+import dataListVaccine from '@/data/json/listVaccine.json';
 import dataSummary from '@/data/json/summary.json';
 import dataTasks from '@/data/json/task.json';
+import dataVaccineTasks from '@/data/json/tasksVaccine.json';
+
+
 import axios from 'axios';
 
 const url_fb = "https://farmboost-c9a0hnf6f7gzcdcy.southeastasia-01.azurewebsites.net/api/"
@@ -179,4 +185,48 @@ interface CategoryAnimal {
 
 export const demo_category_animals: CategoryAnimal[] = dataCategoryAnimals;
 
+interface VaccineList {
+    name: string;
+    type: string;
+    use: boolean;
+    original: boolean;
+    list: VaccineListItem[];
+}
+
+interface VaccineListItem {
+    name: string;
+    dose: number;
+    period: number;
+    doseUnit: string;
+}
+
+export const demo_vaccine_list: VaccineList[] = dataVaccineList;
+
+interface VaccineTask {
+    name: string;
+    list: VaccineTaskItem[];
+}
+
+interface VaccineTaskItem {
+    name: string;
+    done: boolean;
+}
+
+export const demo_vaccine_tasks: VaccineTask[] = dataVaccineTasks;
+
+interface listVaccine {
+    id: string;
+    name: string;
+    manufacturer: string;
+}
+
+export const dataListVaccines: listVaccine[] = dataListVaccine;
+
 export default fetchGet
+
+interface HealthProps {
+    date: string;
+    topic: string;
+    done: boolean;
+}
+export const demo_health: HealthProps[] = dataHealth;

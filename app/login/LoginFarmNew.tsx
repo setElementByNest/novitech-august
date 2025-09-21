@@ -1,5 +1,6 @@
 import { Colors } from '@/constants/Colors';
 import TextStyles from '@/constants/Texts';
+import { CreateFarm } from '@/data/apiFunction';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -7,13 +8,22 @@ import styles from './Styles';
 
 type Props = {
     setPage: React.Dispatch<React.SetStateAction<number>>;
+    setNewFarmName: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const LoginFarmNew = ({ setPage }: Props) => {
+const LoginFarmNew = ({ setPage, setNewFarmName }: Props) => {
     const [farmName, setFarmName] = useState<string | null>(null);
-    const onPressNext = () => {
+    const onPressNext = async () => {
         if (!(farmName == null || farmName == '')) {
+            try {
+            console.log('Creating Farm: ', farmName);
+            setNewFarmName(farmName);
+            await CreateFarm(farmName);
+            console.log('Create Farm Success');
             setPage(3);
+            } catch (error) {
+            console.log('Create Farm Error: ', error);
+            }
         }
     }
     const validText = (text: string) => {

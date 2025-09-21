@@ -7,11 +7,12 @@ import LoginIndex from './LoginIndex';
 
 const LoginMain = () => {
     const [page, setPage] = useState<number>(0);
+    const [newFarmName, setNewFarmName] = useState<string>('');
 
     const allScreen = [
         <LoginIndex setPage={setPage} />,
         <LoginFarmSelect setPage={setPage} />,
-        <LoginFarmNew setPage={setPage} />,
+        <LoginFarmNew setPage={setPage} setNewFarmName={setNewFarmName} />,
         <LoginFarmCreating setPage={setPage} />,
         <LoginFarmCreated setPage={setPage} />,
     ];

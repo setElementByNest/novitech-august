@@ -1,0 +1,82 @@
+[
+    {
+        "name": "ชุดวัคซีนแรกเกิด",
+        "type": "newborn",
+        "use": true,
+        "original": true,
+        "list": [
+            {
+                "name": "Pfizer-BioNTech",
+                "dose": 1,
+                "period": 2,
+                "doseUnit": "ml"
+            },
+            {
+                "name": "AstraZeneca",
+                "dose": 1,
+                "period": 1,
+                "doseUnit": "ml"
+            },
+            {
+                "name": "Covaxin",
+                "dose": 1,
+                "period": 3,
+                "doseUnit": "ml"
+            }
+        ]
+    },
+    {
+        "name": "ชุดวัคซีน 1-3 ปี",
+        "type": "fewyears",
+        "use": false,
+        "original": true,
+        "list": [
+            {
+                "name": "Covaxin",
+                "dose": 1,
+                "period": 2,
+                "doseUnit": "ml"
+            },
+            {
+                "name": "Pfizer-BioNTech",
+                "dose": 1,
+                "period": 1,
+                "doseUnit": "ml"
+            }
+        ]
+    },
+    {
+        "name": "ชุดวัคซีน 1-3 ปี (2)",
+        "type": "fewyears",
+        "use": true,
+        "original": false,
+        "list": [
+            {
+                "name": "Covaxin",
+                "dose": 1,
+                "period": 2,
+                "doseUnit": "ml"
+            },
+            {
+                "name": "AstraZeneca",
+                "dose": 1,
+                "period": 1,
+                "doseUnit": "ml"
+            }
+        ]
+    },
+    {
+        "name": "ชุดวัคซีนแม่ให้นม",
+        "type": "mom",
+        "use": true,
+        "original": true,
+        "list": [
+            {
+                "name": "Johnson & Johnson's Janssen",
+                "dose": 1,
+                "period": 4,
+                "doseUnit": "ml"
+            }
+        ]
+    }
+]

@@ -3,7 +3,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../../constants/Colors';
 
-type themeProps = 'green' | 'gray' | 'graydark' | 'white' | 'lock' | 'red';
+type themeProps = 'green' | 'gray' | 'graydark' | 'white' | 'lock' | 'red' | 'black';
 
 const themeSet: Record<string, { background: string; color: string }> = {
     'green': { background: Colors.light.main, color: '#fff' },
@@ -12,6 +12,7 @@ const themeSet: Record<string, { background: string; color: string }> = {
     'white': { background: '#ffffff', color: '#222' },
     'lock': { background: '#fc0', color: '#fff' },
     'red': { background: '#ff4d4d', color: '#fff' },
+    'black': { background: '#000000', color: '#fff' },
 };
 
 type Props1 = {

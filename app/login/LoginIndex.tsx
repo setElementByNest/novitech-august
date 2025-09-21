@@ -1,6 +1,7 @@
 import Button from '@/components/button/Button';
 import TextStyles from '@/constants/Texts';
-import React, { useState } from 'react';
+import { IsLoginContext } from '@/contexts/IsLoginContext';
+import React, { useContext, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import styles from './Styles';
 
@@ -13,6 +14,8 @@ const LoginIndex = ({ setPage }: Props) => {
     const [password, setPassword] = useState<string>('');
     const [waiting, setWaiting] = useState<boolean>(false);
     const [notic, setNotic] = useState<string>('');
+
+    const { setIsLoggedIn } = useContext(IsLoginContext);
 
     const validEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,6 +51,10 @@ const LoginIndex = ({ setPage }: Props) => {
     const handleCreateNew = () => {
         console.log('Create new account');
         setNotic('กำลังพัฒนา...');
+    };
+    const handleDevMode = () => {
+        console.log('Dev mode');
+        setIsLoggedIn(true);
     };
 
     return (
@@ -91,6 +98,7 @@ const LoginIndex = ({ setPage }: Props) => {
                         <View style={styles.loginmain_styles.separatorLine} />
                     </View>
                     <Button text={"สร้างบัญชีใหม่"} theme='white' fn={handleCreateNew} />
+                    <Button text={"Dev mode"} theme={'black'} fn={handleDevMode} />
 
                     <View style={{ position: 'absolute', top: 0, right: 0, height: '50%', width: '50%', filter: 'blur(70px)', zIndex: -1 }}>
                         <View style={{ backgroundColor: 'green', width: '50%', aspectRatio: 1, position: 'absolute', top: '-15%', right: 30 }}></View>

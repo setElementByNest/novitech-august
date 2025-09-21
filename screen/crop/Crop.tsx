@@ -151,7 +151,8 @@ const Crop = () => {
                                     textValue1={(item.countall).toString()}
                                     textSub2={"ปริมาณอาหาร"}
                                     textValue2={(item.food).toString()}
-                                    textUnit={""}
+                                    textUnit1={""}
+                                    textUnit2={""}
                                     status={item.status}
                                     dot={true}
                                     lock={false}
