@@ -6,6 +6,7 @@ import { Pressable, Text, View } from "react-native";
 type Props = {
     closeModal: () => void;
     demo_animal_detail: any;
+    openEditAnimalModal: (name: string) => void;
 }
 type AnimalStatus = 'ปกติ' | 'ติดสัด' | 'ผิดปกติ' | 'ส่งออก' | 'ตาย' | 'ว่าง';
 
@@ -14,25 +15,27 @@ type Animal = {
     name: string;
     code: string;
     gender: 'ผู้' | 'เมีย';
-    age: number;
+    birth: number;
     weight: number;
     status: AnimalStatus;
+    pen: string;
 };
-export const ShowDetail = ({ closeModal, demo_animal_detail }: Props) => {
+export const ShowDetail = ({ closeModal, demo_animal_detail, openEditAnimalModal }: Props) => {
     const animal: Animal = {
         id: demo_animal_detail.id,
         name: demo_animal_detail.name,
         code: demo_animal_detail.id,
         gender: demo_animal_detail.gender,
-        age: demo_animal_detail.age,
+        birth: demo_animal_detail.birth,
         weight: demo_animal_detail.weight,
         status: "ปกติ",
+        pen: demo_animal_detail.pen
     };
     return (
         <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Pressable style={{ paddingVertical: 8, width: '100%', display: 'flex', borderBottomColor: '#00000022', borderBottomWidth: 1, marginBottom: 8 }} onPress={() => { closeModal() }}>
-                    <AnimalCard animals={animal} gridView={true} fn={() => { closeModal() }} />
+                <Pressable style={{ paddingVertical: 8, width: '100%', display: 'flex', borderBottomColor: '#00000022', borderBottomWidth: 1, marginBottom: 8 }} onPress={() => { }}>
+                    <AnimalCard animals={animal} gridView={true} fn={() => { closeModal() }} edit={openEditAnimalModal} />
                 </Pressable>
                 <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>รายละเอียด</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, flexWrap: 'wrap', marginVertical: 8 }}>

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useState } from 'react';
 import { demo_animal } from '../data/FetchData';
 
 export type AnimalProps = {
@@ -6,9 +6,10 @@ export type AnimalProps = {
     name: string;
     code: string;
     gender: 'ผู้' | 'เมีย';
-    age: number;
+    birth: number;
     weight: number;
     status: AnimalStatus;
+    pen: string;
 };
 
 export type AnimalStatus = 'ปกติ' | 'ติดสัด' | 'ผิดปกติ' | 'ส่งออก' | 'ตาย';

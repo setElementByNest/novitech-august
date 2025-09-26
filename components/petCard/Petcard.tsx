@@ -17,9 +17,10 @@ type Animal = {
     name: string;
     code: string;
     gender: 'ผู้' | 'เมีย';
-    age: number;
+    birth: number;
     weight: number;
     status: AnimalStatus;
+    pen: string;
 };
 
 type Props = {
@@ -30,6 +31,13 @@ type Props = {
 
 const AnimalCardList: React.FC<Props> = ({ animals, gridView, fn }) => {
     const status = statusColors[animals.status];
+
+    const ageFormat = (birth: number) => {
+        const ageInMonths = Math.floor((Date.now() - birth * 1000) / (1000 * 60 * 60 * 24 * 30));
+        const years = Math.floor(ageInMonths / 12);
+        const months = ageInMonths % 12;
+        return `${years} ปี ${months} เดือน`;
+    }
     return (
         <Pressable style={[styles.card, { display: 'flex', flexDirection: gridView ? 'column' : 'row' }]} onPress={() => { console.log(`Selected: ${animals.code}`); fn ? fn() : {}; }}>
             <View style={{ width: gridView ? 'auto' : '30%' }}>
@@ -41,16 +49,16 @@ const AnimalCardList: React.FC<Props> = ({ animals, gridView, fn }) => {
                     <Text style={styles.text_head4}>เพศ</Text>
                     <Text style={gridView ? styles.text_head3 : styles.text_head3_2}>{animals.gender}</Text>
                 </View>
-                <View style={{ flexDirection: 'column', paddingRight: gridView ? 0 : 16, alignItems: 'center' }}>
+                <View style={{ flexDirection: 'column', paddingRight: gridView ? 0 : 16, alignItems: 'flex-end' }}>
                     <Text style={styles.text_head4}>อายุ</Text>
-                    <Text style={gridView ? styles.text_head3 : styles.text_head3_2}>{animals.age} {gridView ? '' : 'ปี'}</Text>
+                    <Text style={gridView ? styles.text_head3 : styles.text_head3_2}>{ageFormat(animals.birth)}</Text>
                 </View>
-                <View style={{ flexDirection: 'column', paddingRight: gridView ? 0 : 16, alignItems: 'center' }}>
+                {/* <View style={{ flexDirection: 'column', paddingRight: gridView ? 0 : 16, alignItems: 'center' }}>
                     <Text style={styles.text_head4}>น้ำหนัก</Text>
                     <Text style={gridView ? styles.text_head3 : styles.text_head3_2}>{animals.weight} {gridView ? '' : 'Kg.'}</Text>
-                </View>
+                </View> */}
             </View>
-            <Text style={[styles.text_head4]}>{"คอกตะเล็ก"}</Text>
+            <Text style={[styles.text_head4]}>{"คอก"} : {animals.pen}</Text>
             <View style={[styles.statusBadge, { backgroundColor: status.border }]}>
                 <Text style={styles.statusText}>{animals.status}</Text>
             </View>

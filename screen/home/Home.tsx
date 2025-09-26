@@ -18,8 +18,9 @@ import { ReloadPage } from '@/components/reload/ReloadPage';
 import { TasksTodo } from '@/components/tasks/TasksTodo';
 import { IsLoginContext } from '@/contexts/IsLoginContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system';
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Pressable, ScrollView, Text, View } from 'react-native';
+import { Dimensions, Image, Pressable, ScrollView, Text, View } from 'react-native';
 import FarmdetailCard from '../../components/farmdetailCard/FarmdetailCard';
 import SummaryCard from '../../components/summaryCard/SummaryCard';
 import TextStyles from '../../constants/Texts';
@@ -78,10 +79,16 @@ const Home = () => {
         const fetchDataSummary = async () => {
             try {
                 const data = await fetchGet("farms/0001/overview_cards/");
-                setDataSummary(data);
+                if (Array.isArray(data)) {
+                    setDataSummary(data);
+                } else {
+                    setDataSummary([]);
+                    console.warn("dataSummary is not an array:", data);
+                }
                 console.log("dataSummary", data);
             } catch (error) {
                 console.error("Failed to fetch data summary:", error);
+                setDataSummary([]);
             }
             setOnRefresh(false);
         };
@@ -141,7 +148,7 @@ const Home = () => {
         setLock(false)
     }, []);
 
-    
+
     const onPressSelectDay = (day: number) => {
         setSelectDay(day);
         const filerListTask_day = allTasks.filter((task) => {
@@ -227,7 +234,7 @@ const Home = () => {
         setShowModal(true);
         setReportClick(report)
     }
-    
+
 
     const viewFoodModal = [
         SelectFood({ changePage }),
@@ -257,10 +264,10 @@ const Home = () => {
         VaccineList({ changePage, setModuleName }),
         VaccineAdd({ changePage }),
         VaccineEdit({ changePage, moduleName, setModuleName }),
-        
+
     ];
 
-    
+
     const viewModal = () => {
         switch (reportClick) {
             case "อาหาร (ฟาง)":
@@ -303,6 +310,49 @@ const Home = () => {
 
     const check_change = JSON.stringify(tasks) === JSON.stringify(tasks_change)
 
+    const [check_layout_vertical, setCheckLayoutVertical] = useState<boolean>(true);
+
+    useEffect(() => {
+        const handleChange = ({ window }: { window: { width: number; height: number } }) => {
+            setCheckLayoutVertical(window.width < window.height);
+            console.log("screenWidth, screenHeight", window.width, window.height);
+        };
+
+        const subscription = Dimensions.addEventListener('change', handleChange);
+
+        // Initial check
+        const { width, height } = Dimensions.get('window');
+        setCheckLayoutVertical(width < height);
+
+        return () => {
+            subscription?.remove();
+        };
+    }, []);
+
+    
+        const dataExpo_deletelist = async () => {
+            const dirUri = FileSystem.documentDirectory + 'data/';
+            try {
+                // Show all file names in dirUri
+                const filesBefore = await FileSystem.readDirectoryAsync(dirUri);
+                console.log('Files before deletion:', filesBefore);
+    
+                // Delete all files
+                await Promise.all(
+                    filesBefore.map(async (file) => {
+                        await FileSystem.deleteAsync(dirUri + file, { idempotent: true });
+                    })
+                );
+    
+                // Show all file names after deletion
+                const filesAfter = await FileSystem.readDirectoryAsync(dirUri);
+                console.log('Files after deletion:', filesAfter);
+    
+            } catch (error) {
+                console.error("Error during file write/read:", error);
+            }
+        }
+
     return (
         <View style={styles.home_styles.viewmain}>
             <ScrollView style={styles.home_styles.scrollmain} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
@@ -317,93 +367,97 @@ const Home = () => {
                             <Text style={TextStyles.text_head2}>Novitech Farm</Text>
                         </Pressable>
                     </View>
-                    <View>
-                        <View style={styles.home_styles.calendar_head}>
-                            <Text style={TextStyles.text_head4}>{(new Date()).toLocaleString('default', { month: 'long' })}, {new Date().getFullYear()}</Text>
-                            {/* <Pressable><Text style={TextStyles.text_head4_gray}>ดูทั้งหมด</Text></Pressable> */}
-                        </View>
-                        <View style={styles.home_styles.calendar}>
-                            {listDay.map((day, index) => (
-                                <Pressable
-                                    key={index}
-                                    style={[
-                                        styles.home_styles.listItem,
-                                        selectDay === day ? styles.home_styles.listItem : styles.home_styles.listItem_disabled,
-                                    ]}
-                                    onPress={() => { check_change ? onPressSelectDay(day) : null }}
-                                >
-                                    <Text style={selectDay === day ? styles.home_styles.listItemText : styles.home_styles.listItemText_disabled}>{day}</Text>
-
-                                </Pressable>
-                            ))}
-                        </View>
-                        <View style={{marginVertical: 12}} >
-                            <TasksTodo textHeader="สิ่งที่ต้องทำ" tasks_change={tasks_change} check_change={check_change} toggleTask={toggleTask} toggleTask_confirm={toggleTask_confirm} toggleTask_cancel={toggleTask_cancel} tasks={tasks} />
-                        </View>
-                    </View>
-
-                    <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>เมนูลัด</Text>
-                    <View style={{ display: 'flex', flexDirection: 'row', gap: 16, flexWrap: 'wrap', marginVertical: 8, width: '100%', paddingHorizontal: 16, paddingVertical: 12 }}>
-                        {
-                            menulist.map((item, index) => (
-                                <Pressable style={{ display: 'flex', alignItems: 'center', gap: 4, flexDirection: 'column' }} onPress={item.onClick} key={index}>
-                                    <View
-                                        style={{
-                                            width: 64,
-                                            height: 64,
-                                            backgroundColor: '#fff',
-                                            borderRadius: 50,
-                                            overflow: 'hidden',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        <Image
-                                            source={item.icon}
-                                            resizeMode="contain"
-                                            style={{ width: 40, height: 40 }}
-                                        />
-                                    </View>
-                                    <Text style={[TextStyles.text_head5]}>{item.title}</Text>
-                                </Pressable>
-                            ))
-                        }
-                    </View>
-                    
-                    <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>รายงานผลแบบย่อ</Text>
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, flexWrap: 'wrap', marginVertical: 8 }}>
-                        {
-                            dataSummary.length === 0 ? (
-                                <ReloadPage />
-                            ) : (
-                                dataSummary.map((item, index) => (
-                                    <SummaryCard
+                    <View style={{ flexWrap: 'wrap', flexDirection: check_layout_vertical ? 'column' : 'row', justifyContent: 'space-between' }}>
+                        <View style={{ width: check_layout_vertical ? '100%' : '50%', padding: check_layout_vertical ? 0 : 12 }}>
+                            <View style={styles.home_styles.calendar_head}>
+                                <Text style={TextStyles.text_head4}>{(new Date()).toLocaleString('default', { month: 'long' })}, {new Date().getFullYear()}</Text>
+                                {/* <Pressable><Text style={TextStyles.text_head4_gray}>ดูทั้งหมด</Text></Pressable> */}
+                            </View>
+                            <View style={styles.home_styles.calendar}>
+                                {listDay.map((day, index) => (
+                                    <Pressable
                                         key={index}
-                                        title={item.title}
-                                        textHead={item.textsummary}
-                                        textSub1={item.textlist1}
-                                        textValue1={(item.textvalue1).toString()}
-                                        textUnit1={item.textunit1}
-                                        textSub2={item.textlist2}
-                                        textValue2={(item.textvalue2).toString()}
-                                        textUnit2={item.textunit2}
-                                        status={item.status}
-                                        dot={true}
-                                        lock={lock}
-                                        onClick={() => openModal(item.title)}
-                                    />
-                                )))
-                        }
-                    </View>
-                    <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>ข้อมูลฟาร์ม</Text>
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, flexWrap: 'wrap', marginVertical: 8 }}>
-                        {
-                            dataCategoryAnimals.length === 0 ? (
-                                <ReloadPage />
-                            ) : (
-                                <FarmdetailCard title={'กลุ่มสัตว์'} datalist={dataCategoryAnimals} textUnit={'ตัว'} dot={true} />
-                            )
-                        }
+                                        style={[
+                                            styles.home_styles.listItem,
+                                            selectDay === day ? styles.home_styles.listItem : styles.home_styles.listItem_disabled,
+                                        ]}
+                                        onPress={() => { check_change ? onPressSelectDay(day) : null }}
+                                    >
+                                        <Text style={selectDay === day ? styles.home_styles.listItemText : styles.home_styles.listItemText_disabled}>{day}</Text>
+
+                                    </Pressable>
+                                ))}
+                            </View>
+                            <View style={{ marginVertical: 12 }} >
+                                <TasksTodo textHeader="สิ่งที่ต้องทำ" tasks_change={tasks_change} check_change={check_change} toggleTask={toggleTask} toggleTask_confirm={toggleTask_confirm} toggleTask_cancel={toggleTask_cancel} tasks={tasks} />
+                            </View>
+                        </View>
+                        <View style={{ width: check_layout_vertical ? '100%' : '50%', padding: check_layout_vertical ? 0 : 12 }}>
+
+                            <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>เมนูลัด</Text>
+                            <View style={{ display: 'flex', flexDirection: 'row', gap: 16, flexWrap: 'wrap', marginVertical: 8, width: '100%', paddingHorizontal: 16, paddingVertical: 12 }}>
+                                {
+                                    menulist.map((item, index) => (
+                                        <Pressable style={{ display: 'flex', alignItems: 'center', gap: 4, flexDirection: 'column' }} onPress={item.onClick} key={index}>
+                                            <View
+                                                style={{
+                                                    width: 64,
+                                                    height: 64,
+                                                    backgroundColor: '#fff',
+                                                    borderRadius: 50,
+                                                    overflow: 'hidden',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                <Image
+                                                    source={item.icon}
+                                                    resizeMode="contain"
+                                                    style={{ width: 40, height: 40 }}
+                                                />
+                                            </View>
+                                            <Text style={[TextStyles.text_head5]}>{item.title}</Text>
+                                        </Pressable>
+                                    ))
+                                }
+                            </View>
+
+                            <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>รายงานผลแบบย่อ</Text>
+                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, flexWrap: 'wrap', marginVertical: 8 }}>
+                                {
+                                    dataSummary.length === 0 ? (
+                                        <ReloadPage />
+                                    ) : (
+                                        dataSummary.map((item, index) => (
+                                            <SummaryCard
+                                                key={index}
+                                                title={item.title}
+                                                textHead={item.textsummary}
+                                                textSub1={item.textlist1}
+                                                textValue1={(item.textvalue1).toString()}
+                                                textUnit1={item.textunit1}
+                                                textSub2={item.textlist2}
+                                                textValue2={(item.textvalue2).toString()}
+                                                textUnit2={item.textunit2}
+                                                status={item.status}
+                                                dot={true}
+                                                lock={lock}
+                                                onClick={() => openModal(item.title)}
+                                            />
+                                        )))
+                                }
+                            </View>
+                            <Text style={[TextStyles.text_head4_gray, { paddingHorizontal: 12 }]}>ข้อมูลฟาร์ม</Text>
+                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, flexWrap: 'wrap', marginVertical: 8 }}>
+                                {
+                                    dataCategoryAnimals.length === 0 ? (
+                                        <ReloadPage />
+                                    ) : (
+                                        <FarmdetailCard title={'กลุ่มสัตว์'} datalist={dataCategoryAnimals} textUnit={'ตัว'} dot={true} />
+                                    )
+                                }
+                            </View>
+                        </View>
                     </View>
                 </View>
                 <ShowModal

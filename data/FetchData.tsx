@@ -14,7 +14,13 @@ const url_fb = "https://farmboost-c9a0hnf6f7gzcdcy.southeastasia-01.azurewebsite
 
 export const fetchGet = async (endpoint: string) => {
     try {
-        const response = await axios.get(`${url_fb}${endpoint}`);
+        const response = await axios.get(`${url_fb}${endpoint}`, {
+            headers: {
+                'Authorization': 'Token cebb91d7da9dec19dc02ca52d3826038e4966bbf',
+                'User-Agent': 'Nest'
+            }
+        });
+        console.log("response", response.status);
         return response.data;
     } catch (error) {
         return error;
@@ -33,9 +39,10 @@ type Animal = {
     name: string;
     code: string;
     gender: 'ผู้' | 'เมีย';
-    age: number;
+    birth: number;
     weight: number;
     status: AnimalStatus;
+    pen: string;
 };
 
 type AnimalStatus = 'ปกติ' | 'ติดสัด' | 'ผิดปกติ' | 'ส่งออก' | 'ตาย';
@@ -50,18 +57,18 @@ type Crop = {
 }
 
 export const demo_task: TaskProps[] = Array.isArray(dataTasks)
-  ? (dataTasks as TaskProps[])
-  : [];
+    ? (dataTasks as TaskProps[])
+    : [];
 
 
 export const demo_animal: Animal[] = [
-    { id: 'M241129', name: 'บื้อ', code: 'M241129', gender: 'ผู้', age: 5, weight: 612, status: 'ปกติ' },
-    { id: 'BF005', name: 'Bella', code: 'BF005', gender: 'เมีย', age: 6, weight: 672, status: 'ติดสัด' },
-    { id: 'M14596', name: 'ตะโกร๋', code: 'M14596', gender: 'เมีย', age: 10, weight: 318.5, status: 'ผิดปกติ' },
-    { id: 'BF004', name: 'Max', code: 'BF004', gender: 'ผู้', age: 4, weight: 524, status: 'ปกติ' },
-    { id: 'BF003', name: 'Luna', code: 'BF003', gender: 'เมีย', age: 5, weight: 624, status: 'ส่งออก' },
-    { id: 'BF006', name: 'Max', code: 'BF006', gender: 'ผู้', age: 4, weight: 598, status: 'ตาย' },
-    { id: 'BF009', name: 'Min', code: 'BF009', gender: 'ผู้', age: 4, weight: 534, status: 'ตาย' },
+    { id: 'M241129', name: 'บื้อ', code: 'M241129', gender: 'ผู้', birth: 1621822762, weight: 612, status: 'ปกติ', pen: 'คอกวัยรุ่นชาย' },
+    { id: 'BF005', name: 'Bella', code: 'BF005', gender: 'เมีย', birth: 1521822762, weight: 672, status: 'ติดสัด', pen: 'คอกให้นม' },
+    { id: 'M14596', name: 'ตะโกร๋', code: 'M14596', gender: 'เมีย', birth: 1681822762, weight: 318.5, status: 'ผิดปกติ', pen: 'คอกแก่' },
+    { id: 'BF004', name: 'Max', code: 'BF004', gender: 'ผู้', birth: 1611822762, weight: 524, status: 'ปกติ', pen: 'คอกวัยรุ่นชาย' },
+    { id: 'BF003', name: 'Luna', code: 'BF003', gender: 'เมีย', birth: 1691822762, weight: 624, status: 'ส่งออก', pen: '' },
+    { id: 'BF006', name: 'Max', code: 'BF006', gender: 'ผู้', birth: 1655822762, weight: 598, status: 'ตาย', pen: '' },
+    { id: 'BF009', name: 'Min', code: 'BF009', gender: 'ผู้', birth: 1666822762, weight: 534, status: 'ตาย', pen: '' },
 ];
 
 export const demo_crop: Crop[] = [

@@ -43,6 +43,7 @@ export const CropAnimalAdd = ({ selectCrop, closeModal }: Props) => {
                 setOpen={setListOpen1}
                 setValue={setChange}
                 multiple={false}
+                listMode="SCROLLVIEW"
                 style={{ borderColor: '#ccc', width: '100%', marginVertical: 6, zIndex: 0 }}
             />
             <View style={{ padding: 24, flexDirection: 'column', alignItems: 'center', gap: 16, width: '100%', display: nowChange === '' ? 'none' : 'flex' }}>

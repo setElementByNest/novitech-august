@@ -17,18 +17,20 @@ type Animal = {
     name: string;
     code: string;
     gender: 'ผู้' | 'เมีย';
-    age: number;
+    birth: number;
     weight: number;
     status: AnimalStatus;
+    pen: string;
 };
 
 type Props = {
     animals: Animal;
     gridView: boolean;
     fn?: () => void;
+    edit: (name: string) => void;
 };
 
-const AnimalCard: React.FC<Props> = ({ animals, gridView, fn }) => {
+const AnimalCard: React.FC<Props> = ({ animals, gridView, fn, edit }) => {
     const status = statusColors[animals.status];
     return (
         <Pressable style={[styles.card, { display: 'flex', flexDirection: gridView ? 'column' : 'row' }]} onPress={() => { console.log(`Selected: ${animals.code}`); fn ? fn() : {}; }}>
@@ -68,6 +70,9 @@ const AnimalCard: React.FC<Props> = ({ animals, gridView, fn }) => {
                         <Text style={styles.text_head4}>แม่</Text>
                         <Text style={styles.text_head3}>{"มาริอา, F2158"}</Text>
                     </View>
+                    <Pressable style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 8}} onPress={() => edit(animals.id)}>
+                        <Text style={[styles.text_head3_2, { color: Colors.light.gray, textDecorationLine: 'underline' }]}>แก้ไข</Text>
+                    </Pressable>
                 </View>
             </View>
             <View style={[styles.statusBadge, { backgroundColor: status.border }]}>

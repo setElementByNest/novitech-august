@@ -40,6 +40,7 @@ export const FoodPet = ({ closeModal, setAddFood, addFood, foodDay, foodTotal, c
                 setOpen={croplist_setOpen}
                 setValue={croplist_setValue}
                 multiple={false}
+                listMode="SCROLLVIEW"
                 style={{ borderColor: '#ccc', width: '100%', marginVertical: 6, marginBottom: 12 }}
             />
             <Text style={[TextStyles.text_head5, { textAlign: 'left', width: '100%' }]}>จำนวนฟาง</Text>
